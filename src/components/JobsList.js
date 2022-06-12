@@ -5,7 +5,7 @@ import JobCard from './JobCard';
 
 const JobsList = (props) => {
     return (
-        <Container>
+        <Container style={{ marginTop: '90px' }}>
             {props.jobApplications.map(appl => {
                 return (
                     <Row key={appl.id} className='my-4'>

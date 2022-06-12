@@ -16,7 +16,7 @@ const JobCard = (props) => {
                     {props.jobData.jobLocation}
                 </Card.Subtitle>
                 {
-                    props.jobData.tags.map(tag => (<Badge bg="secondary" className='text-black mx-1'>{tag}</Badge>))
+                    props.jobData.tags.map((tag, index) => (<Badge bg="secondary" className='text-black mx-1' key={index}>{tag}</Badge>))
                 }
                 <Card.Text style={{ whiteSpace: 'pre-wrap' }}>
                     {props.jobData.jobDescription}

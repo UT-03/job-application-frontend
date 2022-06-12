@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from '../components/Header';
 import JobsList from '../components/JobsList';
 
 const DUMMY_JOB_APPLICATIONS = [
@@ -28,6 +29,7 @@ const DUMMY_JOB_APPLICATIONS = [
 const Home = () => {
     return (
         <React.Fragment>
+            <Header />
             <JobsList jobApplications={DUMMY_JOB_APPLICATIONS} />
         </React.Fragment>
     );
