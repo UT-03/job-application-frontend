@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import Badge from 'react-bootstrap/Badge';
+import { Link } from 'react-router-dom';
 
 import locationIcon from '../assets/images/locationIcon.svg';
 
@@ -16,12 +17,12 @@ const JobCard = (props) => {
                     {props.jobData.jobLocation}
                 </Card.Subtitle>
                 {
-                    props.jobData.tags.map((tag, index) => (<Badge bg="secondary" className='text-black mx-1' key={index}>{tag}</Badge>))
+                    props.jobData.tags.map((tag, index) => (<Badge pill bg="secondary" className='text-black mx-1' key={index}>{tag}</Badge>))
                 }
                 <Card.Text style={{ whiteSpace: 'pre-wrap' }}>
                     {props.jobData.jobDescription}
                 </Card.Text>
-                <Button variant="primary">Apply</Button>
+                <Button variant="primary" as={Link} to={`/apply-for-job/${props.jobData.id}`}>Apply</Button>
             </Card.Body>
         </Card>
     );

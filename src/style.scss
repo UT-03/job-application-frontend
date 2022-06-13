@@ -1,6 +1,6 @@
 // VARIABLE DECLARATIONS
 $new-primary: #990011FF;
-$new-secondary: #FCF6F5FF;
+$new-secondary: rgb(215, 202, 200);
 
 @import "~bootstrap/scss/functions";
 
@@ -28,4 +28,9 @@ $btn-active-box-shadow: none !important;
 * {
     font-family: 'Montserrat', sans-serif;
     // border: 1px solid red;
+}
+
+.form-control.invalid:focus {
+    border-color: rgb(220, 53, 69);
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
 }

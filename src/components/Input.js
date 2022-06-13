@@ -30,13 +30,19 @@ const Input = (props) => {
     const { id, onInput } = props;
     const { value, isValid } = inputState;
     useEffect(() => {
-        onInput(id, value, isValid);
+        if (onInput)
+            onInput(id, value, isValid);
     }, [id, value, isValid, onInput]);
 
     const changeHandler = event => {
+        let val = event.target.value;
+
+        if (event.target.type === 'checkbox')
+            val = event.target.checked;
+
         dispatch({
             type: 'CHANGE',
-            val: event.target.value,
+            val: val,
             validators: props.validators
         });
     };
@@ -52,7 +58,7 @@ const Input = (props) => {
     let element;
     switch (props.element) {
         case 'input':
-            element = <Form.Group className='mb-3'>
+            element = <Form.Group className='mb-4'>
                 <Form.Label className={`${isInputInvalid && "text-danger"}`}>{props.label}</Form.Label>
                 <Form.Control
                     className={`${isInputInvalid && "invalid border border-danger"}`}
@@ -63,13 +69,13 @@ const Input = (props) => {
                     onBlur={touchHandler}
                     value={inputState.value} />
                 {!inputState.isValid && inputState.isTouched && (
-                    <Form.Text className="text-danger d-block">{props.errorText}</Form.Text>
+                    <Form.Text className="text-danger d-block">{props.errorText || 'This field is required.'}</Form.Text>
                 )}
                 <Form.Text className="text-muted">{props.extraText}</Form.Text>
             </Form.Group>
             break;
         case 'textarea':
-            element = <Form.Group className='mb-3'>
+            element = <Form.Group className='mb-4'>
                 <Form.Label className={`${isInputInvalid && "text-danger"}`}>{props.label}</Form.Label>
                 <Form.Control
                     className={`${isInputInvalid && "invalid border border-danger"}`}
@@ -82,15 +88,16 @@ const Input = (props) => {
                     onBlur={touchHandler}
                     value={inputState.value} />
                 {!inputState.isValid && inputState.isTouched && (
-                    <Form.Text className="text-danger d-block">{props.errorText}</Form.Text>
+                    <Form.Text className="text-danger d-block">{props.errorText || 'This field is required.'}</Form.Text>
                 )}
                 <Form.Text className="text-muted">{props.extraText}</Form.Text>
             </Form.Group>
             break;
         case 'select':
-            element = <Form.Group className="mb-3">
-                <Form.Label>{props.label}</Form.Label>
+            element = <Form.Group className="mb-4">
+                <Form.Label className={`${isInputInvalid && "text-danger"}`}>{props.label}</Form.Label>
                 <Form.Select
+                    className={`${isInputInvalid && "invalid border border-danger"}`}
                     onChange={changeHandler}
                     onBlur={touchHandler}
                     value={inputState.value}
@@ -98,7 +105,25 @@ const Input = (props) => {
                     <option value="">{props.defaultOption}</option>
                     {props.options.map((option, index) => <option key={index}>{option}</option>)}
                 </Form.Select>
+                {!inputState.isValid && inputState.isTouched && (
+                    <Form.Text className="text-danger d-block">{props.errorText || 'This field is required.'}</Form.Text>
+                )}
+                <Form.Text className="text-muted">{props.extraText}</Form.Text>
             </Form.Group>
+            break;
+        case 'switch':
+            element = <Form.Check
+                className='mb-4'
+                type="switch"
+                label={props.label}
+            />
+            break;
+        case 'check-box':
+            element = <Form.Check
+                className='mb-4'
+                type="checkbox"
+                label={props.label}
+            />
             break;
     }
     return (

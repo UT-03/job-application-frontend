@@ -25,7 +25,6 @@ const Header = () => {
                             className="me-2"
                             aria-label="Search"
                         />
-                        <Button variant="secondary">Search</Button>
                     </Form>
                 </Navbar.Collapse>
             </Container>
