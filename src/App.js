@@ -7,7 +7,7 @@ import JobApplicationForm from './pages/JobApplicationForm';
 import { AuthContext } from './context/AuthContext';
 
 const App = () => {
-  const { token, login, logout } = useAuth();
+  const { token, userType, login, logout } = useAuth();
 
   let routes;
   routes = <Routes>
@@ -20,6 +20,7 @@ const App = () => {
       value={{
         isLoggedIn: !!token,
         token: token,
+        userType: userType,
         login: login,
         logout: logout
       }}

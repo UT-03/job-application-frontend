@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
@@ -15,7 +15,7 @@ import ErrorModal from './ErrorModal';
 
 const AuthForm = (props) => {
     const [isLoginMode, setIsLoginMode] = useState(true);
-    const auth = useAuth(AuthContext);
+    const auth = useContext(AuthContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
     const navigate = useNavigate();
@@ -33,7 +33,7 @@ const AuthForm = (props) => {
                 'Content-Type': 'application/json'
             }
         )
-            .then(res => auth.login(res.token))
+            .then(res => auth.login(res.token, res.userType))
             .then(() => {
                 navigate('/');
             })
@@ -98,7 +98,7 @@ const AuthForm = (props) => {
                     'Content-Type': 'application/json'
                 }
             )
-                .then(res => auth.login(res.token))
+                .then(res => auth.login(res.token, res.userType))
                 .then(() => {
                     navigate('/');
                 })
@@ -116,7 +116,7 @@ const AuthForm = (props) => {
                     'Content-Type': 'application/json'
                 }
             )
-                .then(res => auth.login(res.token))
+                .then(res => auth.login(res.token, res.userType))
                 .then(() => {
                     navigate('/');
                 })
