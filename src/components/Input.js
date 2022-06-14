@@ -111,18 +111,13 @@ const Input = (props) => {
                 <Form.Text className="text-muted">{props.extraText}</Form.Text>
             </Form.Group>
             break;
-        case 'switch':
+        case 'checkbox':
             element = <Form.Check
                 className='mb-4'
-                type="switch"
+                type={props.type}
                 label={props.label}
-            />
-            break;
-        case 'check-box':
-            element = <Form.Check
-                className='mb-4'
-                type="checkbox"
-                label={props.label}
+                checked={props.checked}
+                onClick={props.onClick}
             />
             break;
     }

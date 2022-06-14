@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -14,6 +14,9 @@ const COUNTRIES = ['Afghanistan', 'Algeria', 'Angola', 'Antarctica', 'Armenia', 
 
 const JobApplicationForm = () => {
     let { jobId } = useParams();
+
+    const [haveValidVisaForCanada, setHaveValidVisaForCanada] = useState(false);
+    const [wouldYouLikeToGetAlertsOfThePostedJobs, setWouldYouLikeToGetAlertsOfThePostedJobs] = useState(true);
 
     const [formState, inputHandler] = useForm({
         name: {
@@ -116,6 +119,8 @@ const JobApplicationForm = () => {
                 <Form onSubmit={(e) => {
                     e.preventDefault();
                     console.log(formState);
+                    console.log(haveValidVisaForCanada)
+                    console.log(wouldYouLikeToGetAlertsOfThePostedJobs);
                 }}
                     className='w-75 mx-auto'>
                     <BlockSeparator heading="Personal Information" />
@@ -218,7 +223,7 @@ const JobApplicationForm = () => {
                         element="input"
                         id="experienceInTheAppliedField"
                         type="text"
-                        label="Do you experience in the applied field?"
+                        label="Do you have experience in the applied field?"
                         validators={[VALIDATOR_REQUIRE()]}
                         onInput={inputHandler}
                     />
@@ -241,13 +246,19 @@ const JobApplicationForm = () => {
                         options={COUNTRIES}
                     />
                     <Input
-                        element="switch"
+                        element="checkbox"
+                        type="switch"
                         id="haveValidVisaForCanada"
-                        label="I have a valid visa for Canada" />
+                        label="I have a valid visa for Canada"
+                        checked={haveValidVisaForCanada}
+                        onClick={(e) => setHaveValidVisaForCanada(e.target.checked)} />
                     <Input
-                        element="check-box"
+                        element="checkbox"
+                        type="checkbox"
                         id="wouldYouLikeToGetAlertsOfThePostedJobs"
-                        label="I would like to get alerts of the posted jobs" />
+                        label="I would like to get alerts of the posted jobs"
+                        checked={wouldYouLikeToGetAlertsOfThePostedJobs}
+                        onClick={(e) => setWouldYouLikeToGetAlertsOfThePostedJobs(e.target.checked)} />
                     <Input
                         element="input"
                         type="file"

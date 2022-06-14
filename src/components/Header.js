@@ -9,7 +9,14 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
     return (
-        <Navbar bg="primary" variant='dark' expand="lg" fixed='top'>
+        <Navbar
+            variant='light'
+            expand="lg"
+            fixed='top'
+            style={{
+                backgroundColor: "#dc35453b",
+                backdropFilter: "blur(5px)"
+            }}>
             <Container>
                 <Navbar.Brand as={Link} to="/">Brand</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -18,14 +25,9 @@ const Header = () => {
                         <Nav.Link href="#home">Home</Nav.Link>
                         <Nav.Link href="#link">Link</Nav.Link>
                     </Nav>
-                    <Form className="d-flex">
-                        <FormControl
-                            type="search"
-                            placeholder="Search with tags"
-                            className="me-2"
-                            aria-label="Search"
-                        />
-                    </Form>
+                    <Nav>
+                        <Button as={Link} to="/auth">Login</Button>
+                    </Nav>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
