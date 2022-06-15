@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from '../hooks/FormHook';
 import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../util/validators';
 import Input from './Input';
-import { useAuth } from '../hooks/AuthHook';
 import { AuthContext } from '../context/AuthContext';
 import { useHttpClient } from '../hooks/HttpHook';
 import ErrorModal from './ErrorModal';
@@ -43,7 +42,8 @@ const AuthForm = (props) => {
         onSuccess: res => googleAuthSubmit(res),
         onError: error => console.log(error),
         googleAccountConfigs: {
-            client_id: "389264262772-9b02q77lubn5eire3p880l66b0bml9nd.apps.googleusercontent.com"
+            client_id: "389264262772-9b02q77lubn5eire3p880l66b0bml9nd.apps.googleusercontent.com",
+            cancel_on_tap_outside: false
         }
     })
 
