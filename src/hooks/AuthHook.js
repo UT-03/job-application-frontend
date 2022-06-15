@@ -26,7 +26,7 @@ export const useAuth = () => {
     useEffect(() => {
         const storedData = JSON.parse(localStorage.getItem('immigrationJobUserData'));
         if (storedData && storedData.token) {
-            login(storedData.token);
+            login(storedData.token, storedData.userType);
         }
     }, [login]);
 
