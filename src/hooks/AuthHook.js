@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 
 export const useAuth = () => {
-    const [token, setToken] = useState(false);
+    const [token, setToken] = useState();
     const [userType, setUserType] = useState();
 
     const login = useCallback((token, userType) => {

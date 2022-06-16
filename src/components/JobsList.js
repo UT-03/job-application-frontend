@@ -6,10 +6,11 @@ import JobCard from './JobCard';
 const JobsList = (props) => {
     return (
         <Container style={{ marginTop: '90px' }}>
-            {props.jobApplications.map(appl => {
+
+            {props.data.map(appl => {
                 return (
-                    <Row key={appl.id} className='my-4'>
-                        <JobCard jobData={appl} />
+                    <Row key={appl._id} className='my-4'>
+                        <JobCard jobData={appl} onJobPostingDelete={props.onJobPostingDelete} />
                     </Row>
                 )
             })}

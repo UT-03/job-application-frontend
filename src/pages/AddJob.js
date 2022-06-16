@@ -1,9 +1,12 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom'
 import AddJobForm from '../components/AddJobForm';
 
-const AddJob = () => {
+const AddJob = (props) => {
+    const { state } = useLocation();
+
     return (
-        <AddJobForm />
+        <AddJobForm isEdit={props.isEdit} editJobData={state} />
     );
 };
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -11,11 +11,12 @@ import { useHttpClient } from '../hooks/HttpHook';
 import ErrorModal from './ErrorModal';
 import { AuthContext } from '../context/AuthContext';
 
-const AddJobForm = () => {
-    const [formState, inputHandler] = useForm({
+const AddJobForm = (props) => {
+    const [formState, inputHandler, setFormData] = useForm({
         jobTitle: {
             value: '',
-            isValid: false
+            isValid: false,
+            anyValue: false
         },
         jobDescription: {
             value: '',
@@ -34,6 +35,34 @@ const AddJobForm = () => {
             isValid: true
         }
     }, false);
+
+    useEffect(() => {
+        if (props.isEdit) {
+            setFormData({
+                jobTitle: {
+                    value: props.editJobData.jobTitle,
+                    isValid: true
+                },
+                jobDescription: {
+                    value: props.editJobData.jobDescription,
+                    isValid: true
+                },
+                jobLocation: {
+                    value: props.editJobData.jobLocation,
+                    isValid: true
+                },
+                industry: {
+                    value: props.editJobData.industry,
+                    isValid: true
+                },
+                keyWordsString: {
+                    value: props.editJobData.keyWords.join('; '),
+                    isValid: true
+                }
+            }, true);
+        }
+    }, []);
+
 
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
@@ -57,9 +86,10 @@ const AddJobForm = () => {
                     e.preventDefault();
 
                     return sendRequest(
-                        `${process.env.REACT_APP_HOSTNAME}/api/immigration-firm/new-job-posting`,
-                        'POST',
+                        `${process.env.REACT_APP_HOSTNAME}/api/immigration-firm/${props.isEdit ? 'edit-job-posting' : 'new-job-posting'}`,
+                        `${props.isEdit ? 'PATCH' : 'POST'}`,
                         JSON.stringify({
+                            _id: props.isEdit && props.editJobData._id || null,
                             jobTitle: formState.inputs.jobTitle.value,
                             jobDescription: formState.inputs.jobDescription.value,
                             jobLocation: formState.inputs.jobLocation.value,
@@ -83,14 +113,18 @@ const AddJobForm = () => {
                     id="jobTitle"
                     label="Job Title"
                     validators={[VALIDATOR_REQUIRE()]}
-                    onInput={inputHandler} />
+                    onInput={inputHandler}
+                    initialValid={props.isEdit ? true : false}
+                    initialValue={props.isEdit && props.editJobData.jobTitle} />
                 <Input
                     element="textarea"
                     type="text"
                     id="jobDescription"
                     label="Job Description"
                     validators={[VALIDATOR_REQUIRE()]}
-                    onInput={inputHandler} />
+                    onInput={inputHandler}
+                    initialValid={props.isEdit ? true : false}
+                    initialValue={props.isEdit && props.editJobData.jobDescription} />
                 <Input
                     element="select"
                     id="jobLocation"
@@ -98,7 +132,9 @@ const AddJobForm = () => {
                     defaultOption="Please select Job Location from the list"
                     options={canadaProvinces}
                     validators={[VALIDATOR_REQUIRE()]}
-                    onInput={inputHandler} />
+                    onInput={inputHandler}
+                    initialValid={props.isEdit ? true : false}
+                    initialValue={props.isEdit && props.editJobData.jobLocation} />
                 <Input
                     element="select"
                     id="industry"
@@ -106,7 +142,9 @@ const AddJobForm = () => {
                     defaultOption="Please select Industry from the list"
                     options={industriesArray}
                     validators={[VALIDATOR_REQUIRE()]}
-                    onInput={inputHandler} />
+                    onInput={inputHandler}
+                    initialValid={props.isEdit ? true : false}
+                    initialValue={props.isEdit && props.editJobData.industry} />
                 <Input
                     element="input"
                     id="keyWordsString"
@@ -115,7 +153,8 @@ const AddJobForm = () => {
                     extraText='You can add one or more keywords seperated by semi-colon (;).'
                     onInput={inputHandler}
                     initialValid={true}
-                    validators={[]} />
+                    validators={[]}
+                    initialValue={props.isEdit && props.editJobData.keyWords.join('; ')} />
 
                 <Button
                     type='submit'

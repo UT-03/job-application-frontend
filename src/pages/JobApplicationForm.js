@@ -118,9 +118,6 @@ const JobApplicationForm = () => {
             <Container>
                 <Form onSubmit={(e) => {
                     e.preventDefault();
-                    console.log(formState);
-                    console.log(haveValidVisaForCanada)
-                    console.log(wouldYouLikeToGetAlertsOfThePostedJobs);
                 }}
                     className='w-75 mx-auto'>
                     <BlockSeparator heading="Personal Information" />
