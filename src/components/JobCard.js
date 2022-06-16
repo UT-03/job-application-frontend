@@ -9,8 +9,7 @@ import locationIcon from '../assets/images/locationIcon.svg';
 import { AuthContext } from '../context/AuthContext';
 import WarningModal from './WarningModal';
 import { useHttpClient } from '../hooks/HttpHook';
-// import editIcon from '../assets/images/editIcon.svg';
-// import deleteIcon from '../assets/images/deleteIcon.svg';
+import ErrorModal from './ErrorModal';
 
 const JobCard = (props) => {
     const auth = useContext(AuthContext);
@@ -38,11 +37,13 @@ const JobCard = (props) => {
 
     return (
         <React.Fragment>
+            <ErrorModal error={error} show={!!error} onHide={clearError} />
             {!!showWarningModal && <WarningModal
                 show={!!showWarningModal}
                 data={showWarningModal}
                 onHide={() => setShowWarningModal(null)}
-                onActionButtonClick={deleteJobPostingHandler} />}
+                onActionButtonClick={deleteJobPostingHandler}
+                isLoading={isLoading} />}
             <Card className='w-100 shadow'>
                 <Card.Body>
                     <Card.Title>{props.jobData.jobTitle}</Card.Title>

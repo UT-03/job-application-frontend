@@ -1,6 +1,9 @@
 import React, { useReducer, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
+import Image from 'react-bootstrap/Image';
+import Container from 'react-bootstrap/Container';
 import { validate } from '../util/validators';
+import addIcon from '../assets/images/addIcon.svg';
 
 const inputReducer = (state, action) => {
     switch (action.type) {
@@ -54,6 +57,13 @@ const Input = (props) => {
     };
 
     const isInputInvalid = !inputState.isValid && inputState.isTouched;
+
+    let element$ = [];
+    if (props.element === 'multi-input') {
+        for (let i = 0; i < props.noOfInputs; i++) {
+            element$.push(i);
+        }
+    }
 
     let element;
     switch (props.element) {
@@ -119,6 +129,35 @@ const Input = (props) => {
                 checked={props.checked}
                 onClick={props.onClick}
             />
+            break;
+        case 'multi-input':
+            element = <Form.Group className='mb-4' ref={props.reference}>
+                <Form.Label>{props.label}</Form.Label>
+                {element$.map(el => (
+                    <Container key={el} className="d-flex align-items-center py-1" id={props.id + 'container' + el}>
+                        <Form.Control
+                            className={`w-50`}
+                            id={props.id + el}
+                            type={props.type}
+                            placeholder={props.placeholder}
+                            onChange={changeHandler}
+                            onBlur={touchHandler}
+                            defaultValue={props.defaultValues[el]} />
+                        {el === props.noOfInputs - 1 && (
+                            <Image
+                                className="mx-1"
+                                src={addIcon}
+                                style={{
+                                    width: "20px",
+                                    height: "20px",
+                                    cursor: "pointer"
+                                }}
+                                onClick={props.onFieldAdd} />
+                        )}
+                    </Container>
+                ))}
+                <Form.Text className="text-muted">{props.extraText}</Form.Text>
+            </Form.Group>
             break;
     }
     return (

@@ -1,0 +1,7 @@
+export const industriesArray = [
+    'Accounting & Finance', 'Advertising & Marketing', 'Agriculture, Forestry & Fishing', 'Airlines & Aviation', 'Arts, Fashion & Design', 'Automotive & Vehicle Repair', 'Banking & Financial Services', 'Construction & Building Service', 'Consulting & Project Management', 'Customer Service & Call Centre', 'Education & Training', 'Engineering & Architecture', 'Environment, Health & Safety', 'Government & Public Sector', 'Healthcare & Medical', 'Hospitality, Tourism & Food Service', 'Human Resources & Recruitment', 'Humanitarian ', 'Information & Communication Technology', 'Installation, Maintenance & Repair', 'Insurance', 'Land Use & Environmental Management', 'Legal', 'Library & Records Management', 'Management', 'Manufacturing', 'Marine', 'Media & Corporate Communications', 'Mining, Resources & Energy ', 'Procurement, Logistics & Supply Chain', 'Quality Assurance', 'Railway & Railtrack', 'Real Estate', 'Religion', 'Research, Monitoring & Evaluation', 'Retail', 'Sales and Business Development', 'Scientific', 'Secretarial Administrative & Clerical', 'Security & Armed Forces', 'Sports & Leisure', 'Utilities'
+];
+
+export const canadaProvinces = [
+    'Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland and Labrador', 'Nova Scotia', 'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan'
+];

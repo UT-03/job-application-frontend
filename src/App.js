@@ -3,9 +3,10 @@ import { Routes, Route } from 'react-router-dom';
 import { useAuth } from './hooks/AuthHook';
 import Auth from './pages/Auth';
 import Home from './pages/Home';
-import AddJob from './pages/AddJob';
+import AddJobPosting from './pages/AddJobPosting';
 import JobApplicationForm from './pages/JobApplicationForm';
 import { AuthContext } from './context/AuthContext';
+import EditJobPosting from './pages/EditJobPosting';
 
 const App = () => {
   const { token, userType, login, logout } = useAuth();
@@ -15,8 +16,8 @@ const App = () => {
     <Route path='/' element={<Home />} />
     <Route path='/apply-for-job/:jobId' element={<JobApplicationForm />} />
     <Route path='/auth' element={<Auth />} />
-    <Route path="/add-new-job" element={<AddJob isEdit={false} />} />
-    <Route path="/edit-job-posting" element={<AddJob isEdit={true} />} />
+    <Route path="/add-new-job" element={<AddJobPosting />} />
+    <Route path="/edit-job-posting" element={<EditJobPosting />} />
   </Routes>
   return (
     <AuthContext.Provider
