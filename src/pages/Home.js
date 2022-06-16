@@ -1,4 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
+import Spinner from 'react-bootstrap/Spinner';
+import Container from 'react-bootstrap/Container';
+
 import Header from '../components/Header';
 import JobsList from '../components/JobsList';
 import NoDataDisplay from '../components/NoDataDisplay';
@@ -75,6 +78,18 @@ const Home = () => {
             {!isLoading && data && data.length === 0 && (
                 <NoDataDisplay
                     heading="Looks like you have not posted any Job yet..." />
+            )}
+
+            {isLoading && (
+                <Container
+                    className="min-vh-100 d-flex align-items-center justify-content-center"
+                >
+                    <Spinner animation="border" variant='primary'
+                        style={{
+                            width: "6rem",
+                            height: "6rem"
+                        }} />
+                </Container>
             )}
         </React.Fragment>
     );
