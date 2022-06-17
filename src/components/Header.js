@@ -25,6 +25,7 @@ const Header = () => {
                         {auth.isLoggedIn && auth.userType === 'immigration-firm' && (
                             <React.Fragment>
                                 <Nav.Link as={Link} to="/add-new-job">Add New Job</Nav.Link>
+                                <Nav.Link as={Link} to="/view-my-job-postings">My Job Postings</Nav.Link>
                             </React.Fragment>
                         )}
                         {/* <Nav.Link href="#link">My Jobs</Nav.Link> */}
