@@ -5,7 +5,7 @@ import FormComponent from '../components/FormComponent';
 import { AuthContext } from '../context/AuthContext';
 import { useHttpClient } from '../hooks/HttpHook';
 import { VALIDATOR_REQUIRE } from '../util/validators';
-import { canadaProvinces, industriesArray } from '../util/GlobalVariables';
+import { canadaProvinces, industries } from '../util/GlobalVariables';
 import ErrorModal from '../components/ErrorModal';
 
 const AddJobPosting = (props) => {
@@ -50,7 +50,7 @@ const AddJobPosting = (props) => {
                 element: "select",
                 label: "Job Location",
                 defaultOption: "Please select Job Location from the list",
-                options: canadaProvinces,
+                options: Object.values(canadaProvinces),
                 validators: [VALIDATOR_REQUIRE()]
             }
         },
@@ -63,7 +63,7 @@ const AddJobPosting = (props) => {
                 element: "select",
                 label: "Industry",
                 defaultOption: "Please select Industry from the list",
-                options: industriesArray,
+                options: Object.values(industries),
                 validators: [VALIDATOR_REQUIRE()]
             }
         },

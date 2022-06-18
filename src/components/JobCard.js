@@ -6,6 +6,7 @@ import Badge from 'react-bootstrap/Badge';
 import { Link, useNavigate } from 'react-router-dom';
 
 import locationIcon from '../assets/images/locationIcon.svg';
+import industryIcon from '../assets/images/industryIcon.svg';
 import { AuthContext } from '../context/AuthContext';
 import WarningModal from './WarningModal';
 import { useHttpClient } from '../hooks/HttpHook';
@@ -50,10 +51,14 @@ const JobCard = (props) => {
                     <Card.Subtitle className="mb-2 text-muted">
                         <Image src={locationIcon} className='me-1' />
                         {props.jobData.jobLocation}
+                        <Image src={industryIcon} className='ms-3 me-1' />
+                        {props.jobData.industry}
                     </Card.Subtitle>
-                    {
-                        props.jobData.keyWords.map((tag, index) => (<Badge pill bg="secondary" className='text-black mx-1' key={index}>{tag}</Badge>))
-                    }
+                    <Card.Subtitle>
+                        {
+                            props.jobData.keyWords.map((tag, index) => (<Badge pill bg="secondary" className='text-black mx-1' key={index}>{tag}</Badge>))
+                        }
+                    </Card.Subtitle>
                     <Card.Text style={{ whiteSpace: 'pre-wrap' }}>
                         {props.jobData.jobDescription}
                     </Card.Text>

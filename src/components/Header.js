@@ -15,7 +15,7 @@ const Header = () => {
             variant='dark'
             expand="lg"
             fixed='top'
-            className='bg-primary'
+            className='bg-primary shadow'
         >
             <Container>
                 <Navbar.Brand as={Link} to="/">Brand</Navbar.Brand>
@@ -28,7 +28,11 @@ const Header = () => {
                                 <Nav.Link as={Link} to="/view-my-job-postings">My Job Postings</Nav.Link>
                             </React.Fragment>
                         )}
-                        {/* <Nav.Link href="#link">My Jobs</Nav.Link> */}
+                        {auth.isLoggedIn && auth.userType === 'applicant' && (
+                            <React.Fragment>
+                                <Nav.Link as={Link} to="/search-jobs">Search Jobs</Nav.Link>
+                            </React.Fragment>
+                        )}
                     </Nav>
                     <Nav>
                         {!auth.isLoggedIn && (<Button as={Link} to="/auth" variant="outline-light">Login</Button>)}

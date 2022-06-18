@@ -19,7 +19,7 @@ const ViewJobPostings = () => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
     useEffect(() => {
-        const fetchPostedJobs = async () => {
+        const fetchPostedJobs = () => {
             if (!auth.isLoggedIn)
                 return;
 
