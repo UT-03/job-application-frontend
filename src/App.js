@@ -8,6 +8,9 @@ import JobApplicationForm from './pages/JobApplicationForm';
 import { AuthContext } from './context/AuthContext';
 import EditJobPosting from './pages/EditJobPosting';
 import ViewJobPostings from './pages/ViewJobPostings';
+import Header from './components/Header';
+import SearchJobs from './pages/SearchJobs';
+import ScrollToTop from './components/ScrollToTop';
 
 const App = () => {
   const { token, userType, login, logout } = useAuth();
@@ -15,6 +18,7 @@ const App = () => {
   let routes;
   routes = <Routes>
     <Route path='/' element={<Home />} />
+    <Route path='/search-jobs' element={<SearchJobs />} />
     <Route path='/view-my-job-postings' element={<ViewJobPostings />} />
     <Route path='/apply-for-job/:jobId' element={<JobApplicationForm />} />
     <Route path='/auth' element={<Auth />} />
@@ -31,9 +35,11 @@ const App = () => {
         logout: logout
       }}
     >
-      <React.Fragment>
+      <ScrollToTop>
+        <Header />
+        <div style={{ height: "48px" }}></div>
         {routes}
-      </React.Fragment>
+      </ScrollToTop>
     </AuthContext.Provider>
   );
 };
