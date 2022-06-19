@@ -6,16 +6,16 @@ const BlockSeparator = (props) => {
             className='border-top border-3 border-primary'
             style={{
                 position: "relative",
-                height: "4rem",
-                marginTop: "4rem"
+                marginTop: "4rem",
+                marginBottom: "25px",
             }}>
-            <h6
-                className="px-1 display-6 bg-white"
+            <h4
+                className="px-1 bg-white"
                 style={{
                     position: "absolute",
-                    top: "-50%",
+                    top: "-17px",
                     left: "0%"
-                }}>{props.heading}</h6>
+                }}>{props.heading}</h4>
         </div>
     );
 };

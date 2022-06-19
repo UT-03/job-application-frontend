@@ -48,7 +48,7 @@ const FormComponent = (props) => {
                             aria-hidden="true"
                         />
                     )}
-                    Submit
+                    {props.submitButtonLabel || 'Submit'}
                 </Button>
             </Form>
         </Container>

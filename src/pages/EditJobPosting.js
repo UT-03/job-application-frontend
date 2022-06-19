@@ -13,7 +13,7 @@ const EditJobPosting = () => {
     console.log(state)
 
     const keyWords = useRef();
-    const [noOfKeyWords, setNoOfKeyWords] = useState(state.keyWords.length);
+    const [noOfKeyWords, setNoOfKeyWords] = useState(state.keyWords.length !== 0 ? state.keyWords.length : 1);
 
     const auth = useContext(AuthContext);
 
