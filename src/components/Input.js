@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image';
 import Container from 'react-bootstrap/Container';
@@ -43,6 +43,9 @@ const Input = (props) => {
         if (event.target.type === 'checkbox')
             val = event.target.checked;
 
+        if (props.type === 'file')
+            val = event.target.files[0];
+
         dispatch({
             type: 'CHANGE',
             val: val,
@@ -60,8 +63,12 @@ const Input = (props) => {
 
     let element$ = [];
     if (props.element === 'multi-input') {
-        for (let i = 0; i < props.noOfInputs; i++) {
-            element$.push(i);
+        if (props.noOfInputs === 0)
+            element$.push(0);
+        else {
+            for (let i = 0; i < props.noOfInputs; i++) {
+                element$.push(i);
+            }
         }
     }
 
@@ -77,7 +84,26 @@ const Input = (props) => {
                     placeholder={props.placeholder}
                     onChange={changeHandler}
                     onBlur={touchHandler}
-                    value={inputState.value} />
+                    value={inputState.value}
+                    disabled={props.disabled} />
+                {!inputState.isValid && inputState.isTouched && (
+                    <Form.Text className="text-danger d-block">{props.errorText || 'This field is required.'}</Form.Text>
+                )}
+                <Form.Text className="text-muted">{props.extraText}</Form.Text>
+            </Form.Group>
+            break;
+        case 'file':
+            element = <Form.Group className='mb-4'>
+                <Form.Label className={`${isInputInvalid && "text-danger"}`}>{props.label}</Form.Label>
+                <Form.Control
+                    className={`${isInputInvalid && "invalid border border-danger"}`}
+                    id={props.id}
+                    type="file"
+                    placeholder={props.placeholder}
+                    onChange={changeHandler}
+                    onBlur={touchHandler}
+                    disabled={props.disabled}
+                    ref={props.reference} />
                 {!inputState.isValid && inputState.isTouched && (
                     <Form.Text className="text-danger d-block">{props.errorText || 'This field is required.'}</Form.Text>
                 )}
@@ -96,7 +122,8 @@ const Input = (props) => {
                     placeholder={props.placeholder}
                     onChange={changeHandler}
                     onBlur={touchHandler}
-                    value={inputState.value} />
+                    value={inputState.value}
+                    disabled={props.disabled} />
                 {!inputState.isValid && inputState.isTouched && (
                     <Form.Text className="text-danger d-block">{props.errorText || 'This field is required.'}</Form.Text>
                 )}
@@ -111,6 +138,7 @@ const Input = (props) => {
                     onChange={changeHandler}
                     onBlur={touchHandler}
                     value={inputState.value}
+                    disabled={props.disabled}
                 >
                     <option value="">{props.defaultOption}</option>
                     {props.options.map((option, index) => <option key={index}>{option}</option>)}
@@ -127,7 +155,9 @@ const Input = (props) => {
                 type={props.type}
                 label={props.label}
                 checked={props.checked}
-                onClick={props.onClick}
+                defaultChecked={props.defaultChecked}
+                onClick={(e) => props.onClick(e.target.checked)}
+                disabled={props.disabled}
             />
             break;
         case 'multi-input':
@@ -142,7 +172,8 @@ const Input = (props) => {
                             placeholder={props.placeholder}
                             onChange={changeHandler}
                             onBlur={touchHandler}
-                            defaultValue={props.defaultValues[el]} />
+                            defaultValue={props.defaultValues[el]}
+                            disabled={props.disabled} />
                         {el === props.noOfInputs - 1 && (
                             <Image
                                 className="mx-1"

@@ -28,9 +28,14 @@ const Header = () => {
                                 <Nav.Link as={Link} to="/view-my-job-postings">My Job Postings</Nav.Link>
                             </React.Fragment>
                         )}
-                        {auth.isLoggedIn && auth.userType === 'applicant' && (
+                        {auth.isLoggedIn && auth.userType !== 'immigration-firm' && (
                             <React.Fragment>
                                 <Nav.Link as={Link} to="/search-jobs">Search Jobs</Nav.Link>
+                            </React.Fragment>
+                        )}
+                        {auth.isLoggedIn && auth.userType === 'applicant' && (
+                            <React.Fragment>
+                                <Nav.Link as={Link} to="/my-profile">My Profile</Nav.Link>
                             </React.Fragment>
                         )}
                     </Nav>

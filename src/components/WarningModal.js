@@ -23,7 +23,7 @@ const WarningModal = (props) => {
             </Modal.Body>
             <Modal.Footer>
                 <Button
-                    onClick={props.onActionButtonClick}
+                    onClick={() => props.onActionButtonClick(props.data)}
                     disabled={props.isLoading}>
                     {props.isLoading && (
                         <Spinner
@@ -36,6 +36,7 @@ const WarningModal = (props) => {
                     )}
                     {props.data.actionButtonLabel}</Button>
                 <Button
+                    variant='outline-primary'
                     onClick={props.onHide}
                     disabled={props.isLoading}>Cancel</Button>
             </Modal.Footer>

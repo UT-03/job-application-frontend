@@ -6,7 +6,7 @@ const VALIDATOR_TYPE_MAX = 'MAX';
 const VALIDATOR_TYPE_EMAIL = 'EMAIL';
 const VALIDATOR_TYPE_FILE = 'FILE';
 
-export const VALIDATOR_REQUIRE = () => ({ type: VALIDATOR_TYPE_REQUIRE });
+export const VALIDATOR_REQUIRE = (val) => ({ type: VALIDATOR_TYPE_REQUIRE, val: val || null });
 export const VALIDATOR_FILE = val => ({ type: VALIDATOR_TYPE_FILE, val: val });
 export const VALIDATOR_MINLENGTH = val => ({
     type: VALIDATOR_TYPE_MINLENGTH,
@@ -42,14 +42,15 @@ export const validate = (value, validators) => {
             isValid = isValid && /^\S+@\S+\.\S+$/.test(value);
         }
         if (validator.type === VALIDATOR_TYPE_FILE) {
-            let regStr = '^.*\.('
+            let regStr = '^.*\.(';
+
             validator.val.forEach((ext, index) => {
                 regStr += `${ext.toUpperCase()}|${ext.toLowerCase()}`;
                 if (index < validator.val.length - 1)
                     regStr += '|';
             });
             regStr += ')$';
-            isValid = isValid && new RegExp(regStr).test(value);
+            isValid = isValid && new RegExp(regStr).test(value.name);
         }
     }
     return isValid;
