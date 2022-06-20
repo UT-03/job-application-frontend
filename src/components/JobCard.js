@@ -13,6 +13,7 @@ import { useHttpClient } from '../hooks/HttpHook';
 import ErrorModal from './ErrorModal';
 
 const JobCard = (props) => {
+    console.log(props.jobData);
     const auth = useContext(AuthContext);
 
     const [showWarningModal, setShowWarningModal] = useState();
@@ -54,6 +55,11 @@ const JobCard = (props) => {
                         <Image src={industryIcon} className='ms-3 me-1' />
                         {props.jobData.industry}
                     </Card.Subtitle>
+
+                    <Card.Subtitle className="mb-2 text-muted d-block text-decoration-none" as={Link} to='/'>
+                        {`${props.jobData.jobApplications.length} Application${props.jobData.jobApplications.length === 1 ? '' : 's'}`}
+                    </Card.Subtitle>
+
                     <Card.Subtitle>
                         {
                             props.jobData.keyWords.map((tag, index) => (<Badge pill bg="secondary" className='text-black mx-1' key={index}>{tag}</Badge>))
@@ -62,7 +68,7 @@ const JobCard = (props) => {
                     <Card.Text style={{ whiteSpace: 'pre-wrap' }}>
                         {props.jobData.jobDescription}
                     </Card.Text>
-                    {auth.isLoggedIn && auth.userType === 'immigration-firm' && (
+                    {auth.isLoggedIn && auth.userType === 'immigration-firm' && auth.userId === props.jobData.postedBy && (
                         <React.Fragment>
                             <Button
                                 variant='outline-primary'
