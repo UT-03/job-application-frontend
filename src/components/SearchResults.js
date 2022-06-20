@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Spinner from 'react-bootstrap/Spinner';
 import JobsList from './JobsList';
 import NoDataDisplay from './NoDataDisplay';
+import PageLoadingSpinner from './PageLoadingSpinner';
 
 const SearchResults = (props) => {
     return (
@@ -15,17 +16,7 @@ const SearchResults = (props) => {
                     heading="Looks like our database is empty..." />
             )}
 
-            {props.isLoading && (
-                <Container
-                    className="d-flex align-items-center justify-content-center mb-4"
-                >
-                    <Spinner animation="border" variant='primary'
-                        style={{
-                            width: "6rem",
-                            height: "6rem"
-                        }} />
-                </Container>
-            )
+            {props.isLoading && <PageLoadingSpinner />
             }
         </React.Fragment>
     );
