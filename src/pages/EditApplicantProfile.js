@@ -1,5 +1,5 @@
-import React, { useContext, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 // import storage from '../util/firebase';
@@ -11,15 +11,26 @@ import { canadaProvinces, COUNTRIES, statusInCountryPfResidence } from '../util/
 // import DisplayData from '../components/DisplayData';
 // import { getMimetype } from '../util/GlobalFunctions';
 import ErrorModal from '../components/ErrorModal';
+import AddReferences from '../components/AddReferences';
+import BoxSeperator from '../components/BoxSeperator';
 
 const EditApplicantProfile = () => {
     const { state } = useLocation();
 
     const auth = useContext(AuthContext);
 
+    const navigate = useNavigate();
+
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
-
+    const [existingReferences, setExistingReferences] = useState(state.references && state.references.length !== 0 ? state.references : [
+        {
+            name: '',
+            email: '',
+            phoneNumber: ''
+        }
+    ]);
+    // const [selectedReferences, setSelectedReferences] = useState([0, 2]);
 
     const formObj = {
         group1: {
@@ -168,128 +179,35 @@ const EditApplicantProfile = () => {
                     options: Object.values(canadaProvinces)
                 }
             },
-        },
-        group3: {
-            nameOfReference1: {
-                formState: {
-                    value: state.nameOfReference1 || '',
-                    isValid: state.nameOfReference1 ? true : false
-                },
-                props: {
-                    element: "input",
-                    type: "text",
-                    label: "Name",
-                    validators: [VALIDATOR_REQUIRE()]
-                }
-            },
-            emailOfReference1: {
-                formState: {
-                    value: state.emailOfReference1 || '',
-                    isValid: state.emailOfReference1 ? true : false
-                },
-                props: {
-                    element: "input",
-                    type: "email",
-                    label: "Email",
-                    validators: [VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()],
-                    errorText: "Please enter valid email."
-                }
-            },
-            phoneNumberOfReference1: {
-                formState: {
-                    value: state.phoneNumberOfReference1 || '',
-                    isValid: state.phoneNumberOfReference1 ? true : false
-                },
-                props: {
-                    element: "input",
-                    type: "tel",
-                    label: "Phone Number",
-                    validators: [VALIDATOR_REQUIRE()],
-                    errorText: "Please enter valid phone Number."
-                }
-            }
-        },
-        group4: {
-            nameOfReference2: {
-                formState: {
-                    value: state.nameOfReference2 || '',
-                    isValid: state.nameOfReference2 ? true : false
-                },
-                props: {
-                    element: "input",
-                    type: "text",
-                    label: "Name",
-                    validators: [VALIDATOR_REQUIRE()]
-                }
-            },
-            emailOfReference2: {
-                formState: {
-                    value: state.emailOfReference2 || '',
-                    isValid: state.emailOfReference2 ? true : false
-                },
-                props: {
-                    element: "input",
-                    type: "email",
-                    label: "Email",
-                    validators: [VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()],
-                    errorText: "Please enter valid email."
-                }
-            },
-            phoneNumberOfReference2: {
-                formState: {
-                    value: state.phoneNumberOfReference2 || '',
-                    isValid: state.phoneNumberOfReference2 ? true : false
-                },
-                props: {
-                    element: "input",
-                    type: "tel",
-                    label: "Phone Number",
-                    validators: [VALIDATOR_REQUIRE()],
-                    errorText: "Please enter valid phone Number."
-                }
-            }
-        },
-        group5: {
-            nameOfReference3: {
-                formState: {
-                    value: state.nameOfReference3 || '',
-                    isValid: state.nameOfReference3 ? true : false
-                },
-                props: {
-                    element: "input",
-                    type: "text",
-                    label: "Name",
-                    validators: [VALIDATOR_REQUIRE()]
-                }
-            },
-            emailOfReference3: {
-                formState: {
-                    value: state.emailOfReference3 || '',
-                    isValid: state.emailOfReference3 ? true : false
-                },
-                props: {
-                    element: "input",
-                    type: "email",
-                    label: "Email",
-                    validators: [VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()],
-                    errorText: "Please enter valid email."
-                }
-            },
-            phoneNumberOfReference3: {
-                formState: {
-                    value: state.phoneNumberOfReference3 || '',
-                    isValid: state.phoneNumberOfReference3 ? true : false
-                },
-                props: {
-                    element: "input",
-                    type: "tel",
-                    label: "Phone Number",
-                    validators: [VALIDATOR_REQUIRE()],
-                    errorText: "Please enter valid phone Number."
-                }
-            }
-        },
+        }
     }
+
+    const changeHandler = (index, inputType, value) => {
+        const existingReferences$ = [...existingReferences];
+        existingReferences$[index][inputType] = value;
+        setExistingReferences(existingReferences$);
+    }
+
+    const addReferenceHandler = () => {
+        const existingReferences$ = [...existingReferences];
+        existingReferences$.push({
+            name: '',
+            email: '',
+            phoneNumber: ''
+        });
+        setExistingReferences(existingReferences$);
+    }
+
+    // const selectReferenceHandler = (index) => {
+    //     let selectedReferences$ = [...selectedReferences];
+    //     if (selectedReferences$.includes(index))
+    //         selectedReferences$ = selectedReferences$.filter(ele => ele !== index);
+    //     else if (selectedReferences.length < 3)
+    //         selectedReferences$.push(index);
+
+    //     setSelectedReferences(selectedReferences$);
+    // }
+
 
     return (
         <React.Fragment>
@@ -299,7 +217,7 @@ const EditApplicantProfile = () => {
                 initialValid={false}
                 disableSubmitButton={isLoading}
                 submitButtonLabel="Update Profile"
-                headings={["Personal Details", "Work-related Details", "Reference 1", "Reference 2", "Reference 3"]}
+                headings={["Personal Details", "Work-related Details"]}
                 onSubmit={formState => {
                     let requestObj = {};
                     for (const key in formState.inputs) {
@@ -307,7 +225,9 @@ const EditApplicantProfile = () => {
                             requestObj[key] = formState.inputs[key].value;
                         }
                     }
-                    console.log(requestObj)
+
+                    requestObj.references = existingReferences;
+
                     return sendRequest(`${process.env.REACT_APP_HOSTNAME}/api/applicant/update-profile-data`,
                         'POST',
                         JSON.stringify(requestObj),
@@ -315,9 +235,21 @@ const EditApplicantProfile = () => {
                             'Content-Type': 'application/json',
                             Authorization: 'Bearer ' + auth.token
                         })
+                        .then(() => navigate('/my-profile'));
                 }
                 }
-            />
+            >
+                <BoxSeperator heading="References">
+                    <AddReferences
+                        existingReferences={existingReferences}
+                        changeHandler={changeHandler}
+                        onAddReference={addReferenceHandler}
+                    // selectedReferences={selectedReferences}
+                    // onSelectClick={selectReferenceHandler}
+                    // isApplicationFormMode
+                    />
+                </BoxSeperator>
+            </FormComponentBlockSeparated>
         </React.Fragment>
     );
 };

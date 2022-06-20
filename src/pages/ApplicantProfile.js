@@ -230,6 +230,12 @@ const ApplicantProfile = () => {
                                     </Row>
                                 ))}
 
+                                {data.resume.length === 0 && (
+                                    <h6 className="mb-4 text-muted d-flex">
+                                        <span><em>Not Provided</em></span>
+                                    </h6>
+                                )}
+
                                 <Button
                                     onClick={() => setShowResumeUploadModel(true)}>Upload resume</Button>
 
@@ -241,33 +247,24 @@ const ApplicantProfile = () => {
                                         readOnly />
                                 )}
 
-                                {[
-                                    {
-                                        name: data.nameOfReference1,
-                                        email: data.emailOfReference1,
-                                        phoneNumber: data.phoneNumberOfReference1
-                                    },
-                                    {
-                                        name: data.nameOfReference2,
-                                        email: data.emailOfReference2,
-                                        phoneNumber: data.phoneNumberOfReference2
-                                    },
-                                    {
-                                        name: data.nameOfReference3,
-                                        email: data.emailOfReference3,
-                                        phoneNumber: data.phoneNumberOfReference3
-                                    },
-                                ].map((dt, index) => (
+                                <BlockSeparator heading="References" />
+
+                                {data.references.length === 0 && (
+                                    <h6 className="mb-4 text-muted d-flex">
+                                        <span><em>Not Provided</em></span>
+                                    </h6>
+                                )}
+
+                                {data.references.length !== 0 && data.references.map((dt, index) => (
                                     <React.Fragment key={index}>
-                                        <BlockSeparator heading={`Reference ${index + 1}`} />
                                         <Card.Title className="display-6">{dt.name}</Card.Title>
                                         <Card.Subtitle className="mb-2 text-muted d-flex">
                                             <Image src={emailIcon} className='me-1' />
                                             {dt.email}
                                         </Card.Subtitle>
-                                        <Card.Subtitle className="mb-2 text-muted d-flex">
+                                        <Card.Subtitle className="mb-5 text-muted d-flex">
                                             <Image src={phoneIcon} className='me-1' />
-                                            {dt.phoneNumber ? dt.phoneNumber : <span><em>Not Provided</em></span>}
+                                            {dt.phoneNumber}
                                         </Card.Subtitle>
                                     </React.Fragment>
                                 ))}

@@ -51,6 +51,9 @@ const Input = (props) => {
             val: val,
             validators: props.validators
         });
+
+        if (props.onChange)
+            props.onChange(val);
     };
 
     const touchHandler = () => {

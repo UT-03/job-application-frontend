@@ -6,6 +6,7 @@ import Spinner from 'react-bootstrap/Spinner';
 
 import { useForm } from '../hooks/FormHook';
 import Input from './Input';
+import BoxSeperator from './BoxSeperator';
 
 const FormComponentBlockSeparated = (props) => {
     const formObj = { ...props.formObj };
@@ -33,12 +34,10 @@ const FormComponentBlockSeparated = (props) => {
                 }}>
                 {Object.values(formObj).map((grp, index) => {
                     return (
-                        <Container
+                        <BoxSeperator
                             key={index}
-                            className="mx-auto my-5 pt-5 border border-3 border-primary rounded-3 position-relative"
+                            heading={props.headings[index]}
                         >
-                            <h3 className="position-absolute bg-white display-6"
-                                style={{ top: "-25px", left: "2%" }}>{props.headings[index]}</h3>
                             {Object.values(grp).map(inp => (
                                 <Input
                                     key={inp.props.id}
@@ -48,9 +47,11 @@ const FormComponentBlockSeparated = (props) => {
                                     onInput={inputHandler}
                                 />
                             ))}
-                        </Container>
+                        </BoxSeperator>
                     )
                 })}
+
+                {props.children}
 
                 <Button
                     type="submit"
