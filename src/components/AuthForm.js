@@ -32,7 +32,7 @@ const AuthForm = (props) => {
                 'Content-Type': 'application/json'
             }
         )
-            .then(res => auth.login(res.token, res.userType))
+            .then(res => auth.login(res.token, res.userType, res.userId))
             .then(() => {
                 navigate('/');
             })
@@ -98,7 +98,7 @@ const AuthForm = (props) => {
                     'Content-Type': 'application/json'
                 }
             )
-                .then(res => auth.login(res.token, res.userType))
+                .then(res => auth.login(res.token, res.userType, res.userId))
                 .then(() => {
                     navigate('/');
                 })
@@ -116,7 +116,7 @@ const AuthForm = (props) => {
                     'Content-Type': 'application/json'
                 }
             )
-                .then(res => auth.login(res.token, res.userType))
+                .then(res => auth.login(res.token, res.userType, res.userId))
                 .then(() => {
                     navigate('/');
                 })

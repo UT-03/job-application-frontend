@@ -16,7 +16,7 @@ import EditApplicantProfile from './pages/EditApplicantProfile';
 import JobApplication from './pages/JobApplication';
 
 const App = () => {
-  const { token, userType, login, logout } = useAuth();
+  const { token, userType, userId, login, logout } = useAuth();
 
   let routes;
   routes = <Routes>
@@ -36,6 +36,7 @@ const App = () => {
         isLoggedIn: !!token,
         token: token,
         userType: userType,
+        userId: userId,
         login: login,
         logout: logout
       }}
