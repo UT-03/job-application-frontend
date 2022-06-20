@@ -4,7 +4,6 @@ import { useAuth } from './hooks/AuthHook';
 import Auth from './pages/Auth';
 import Home from './pages/Home';
 import AddJobPosting from './pages/AddJobPosting';
-import JobApplicationForm from './pages/JobApplicationForm';
 import { AuthContext } from './context/AuthContext';
 import EditJobPosting from './pages/EditJobPosting';
 import ViewJobPostings from './pages/ViewJobPostings';

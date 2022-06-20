@@ -3,10 +3,10 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import BoxSeperator from './BoxSeperator';
 
 const SelectResume = (props) => {
-    console.log(props.resumeURLs)
     return (
         <BoxSeperator
             heading="Select Resume"
@@ -41,8 +41,17 @@ const SelectResume = (props) => {
                 ))}
             </Container>
             <Button
-                disabled={props.selectedResume === null}
+                disabled={props.selectedResume === null || props.isLoading}
                 onClick={props.onResumeSubmit}>
+                {props.disableSubmitButton && (
+                    <Spinner
+                        as="span"
+                        animation="grow"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                    />
+                )}
                 Apply
             </Button>
         </BoxSeperator >

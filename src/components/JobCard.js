@@ -13,7 +13,6 @@ import { useHttpClient } from '../hooks/HttpHook';
 import ErrorModal from './ErrorModal';
 
 const JobCard = (props) => {
-    console.log(props.jobData);
     const auth = useContext(AuthContext);
 
     const [showWarningModal, setShowWarningModal] = useState();
@@ -32,7 +31,6 @@ const JobCard = (props) => {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + auth.token
             })
-            .then(res => console.log(res))
             .then(() => setShowWarningModal(null))
             .then(() => props.onJobPostingDelete(props.jobData._id))
     }

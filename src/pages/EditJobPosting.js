@@ -10,7 +10,6 @@ import ErrorModal from '../components/ErrorModal';
 
 const EditJobPosting = () => {
     const { state } = useLocation();
-    console.log(state)
 
     const keyWords = useRef();
     const [noOfKeyWords, setNoOfKeyWords] = useState(state.keyWords.length !== 0 ? state.keyWords.length : 1);
@@ -94,14 +93,12 @@ const EditJobPosting = () => {
                 initialValid={true}
                 disableSubmitButton={isLoading}
                 onSubmit={formState => {
-                    console.log(formState)
                     let keyWordsArray = [];
                     for (let i = 0; i < noOfKeyWords; i++) {
                         const value = keyWords.current.children["keyWordscontainer" + i].children["keyWords" + i].value;
                         if (value !== '')
                             keyWordsArray.push(value);
                     }
-                    console.log(keyWordsArray);
 
                     return sendRequest(
                         `${process.env.REACT_APP_HOSTNAME}/api/immigration-firm/edit-job-posting`,
@@ -119,7 +116,6 @@ const EditJobPosting = () => {
                             Authorization: 'Bearer ' + auth.token
                         }
                     )
-                        .then(res => console.log(res))
                         .then(() => {
                             navigate('/');
                         })

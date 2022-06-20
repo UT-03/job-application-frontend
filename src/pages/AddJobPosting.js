@@ -91,14 +91,12 @@ const AddJobPosting = (props) => {
                 initialValid={false}
                 disableSubmitButton={isLoading}
                 onSubmit={formState => {
-                    console.log(formState)
                     let keyWordsArray = [];
                     for (let i = 0; i < noOfKeyWords; i++) {
                         const value = keyWords.current.children["keyWordscontainer" + i].children["keyWords" + i].value;
                         if (value !== '')
                             keyWordsArray.push(value);
                     }
-                    console.log(keyWordsArray);
 
                     return sendRequest(
                         `${process.env.REACT_APP_HOSTNAME}/api/immigration-firm/new-job-posting`,
@@ -115,7 +113,6 @@ const AddJobPosting = (props) => {
                             Authorization: 'Bearer ' + auth.token
                         }
                     )
-                        .then(res => console.log(res))
                         .then(() => {
                             navigate('/');
                         })

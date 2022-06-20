@@ -8,7 +8,6 @@ import SelectResume from '../components/SelectResume';
 
 const JobApplication = () => {
     const { state } = useLocation();
-    console.log(state);
     const { jobId } = useParams();
     const navigate = useNavigate();
 
@@ -28,7 +27,6 @@ const JobApplication = () => {
                 Authorization: 'Bearer ' + auth.token
             })
             .then(res => {
-                console.log(res.applicantProfileData);
                 setData(() => res.applicantProfileData);
             });
     }
@@ -57,8 +55,6 @@ const JobApplication = () => {
     }
 
     const resumeSubmitHandler = () => {
-        console.log(state.profileDataObj, state.selectedReferencesIndex, selectedResume);
-
         return sendRequest(`${process.env.REACT_APP_HOSTNAME}/api/applicant/apply-for-job/${jobId}`,
             'POST',
             JSON.stringify({
@@ -81,6 +77,7 @@ const JobApplication = () => {
                     formState={data}
                     isApplicationFormMode={true}
                     onSubmit={reviewProfileFormSubmitHandler}
+                    disableSubmitButton={isLoading}
                 />
             )}
             {state.stage === "resume-select" && data && (
@@ -88,7 +85,8 @@ const JobApplication = () => {
                     resumeURLs={state.resumeURLs}
                     selectedResume={selectedResume}
                     onSelectResume={resumeSelectHandler}
-                    onResumeSubmit={resumeSubmitHandler} />
+                    onResumeSubmit={resumeSubmitHandler}
+                    isLoading={isLoading} />
             )}
         </React.Fragment>
     );

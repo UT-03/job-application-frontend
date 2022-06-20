@@ -94,7 +94,6 @@ const ApplicantProfile = () => {
                 const uploaded = Math.floor(
                     (snapshot.bytesTransferred / snapshot.totalBytes) * 100
                 );
-                console.log(uploaded);
                 setProgress(uploaded);
             },
             error => {

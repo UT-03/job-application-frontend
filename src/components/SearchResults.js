@@ -1,6 +1,4 @@
 import React from 'react';
-import Container from 'react-bootstrap/Container';
-import Spinner from 'react-bootstrap/Spinner';
 import JobsList from './JobsList';
 import NoDataDisplay from './NoDataDisplay';
 import PageLoadingSpinner from './PageLoadingSpinner';
