@@ -13,6 +13,7 @@ import SearchJobs from './pages/SearchJobs';
 import ScrollToTop from './components/ScrollToTop';
 import ApplicantProfile from './pages/ApplicantProfile';
 import EditApplicantProfile from './pages/EditApplicantProfile';
+import JobApplication from './pages/JobApplication';
 
 const App = () => {
   const { token, userType, login, logout } = useAuth();
@@ -24,7 +25,7 @@ const App = () => {
     <Route path='/my-profile' element={<ApplicantProfile />} />
     <Route path='/edit-profile' element={<EditApplicantProfile />} />
     <Route path='/view-my-job-postings' element={<ViewJobPostings />} />
-    <Route path='/apply-for-job/:jobId' element={<JobApplicationForm />} />
+    <Route path='/apply-for-job/:jobId' element={<JobApplication />} />
     <Route path='/auth' element={<Auth />} />
     <Route path="/add-new-job" element={<AddJobPosting />} />
     <Route path="/edit-job-posting" element={<EditJobPosting />} />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { VALIDATOR_REQUIRE, VALIDATOR_EMAIL } from '../util/validators';
 import { canadaProvinces, COUNTRIES, statusInCountryOfResidence } from '../util/GlobalVariables';
@@ -14,7 +14,15 @@ const EditProfileForm = (props) => {
             phoneNumber: ''
         }
     ]);
-    // const [selectedReferences, setSelectedReferences] = useState([0, 2]);
+    const [selectedReferences, setSelectedReferences] = useState([]);
+    const [areReferencesSelected, setAreReferencesSelected] = useState(false);
+
+    useEffect(() => {
+        if (selectedReferences.length === 3)
+            setAreReferencesSelected(true);
+        else
+            setAreReferencesSelected(false);
+    }, [selectedReferences])
 
     const formObj = {
         group1: {
@@ -182,15 +190,15 @@ const EditProfileForm = (props) => {
         setExistingReferences(existingReferences$);
     }
 
-    // const selectReferenceHandler = (index) => {
-    //     let selectedReferences$ = [...selectedReferences];
-    //     if (selectedReferences$.includes(index))
-    //         selectedReferences$ = selectedReferences$.filter(ele => ele !== index);
-    //     else if (selectedReferences.length < 3)
-    //         selectedReferences$.push(index);
+    const selectReferenceHandler = (index) => {
+        let selectedReferences$ = [...selectedReferences];
+        if (selectedReferences$.includes(index))
+            selectedReferences$ = selectedReferences$.filter(ele => ele !== index);
+        else if (selectedReferences.length < 3)
+            selectedReferences$.push(index);
 
-    //     setSelectedReferences(selectedReferences$);
-    // }
+        setSelectedReferences(selectedReferences$);
+    }
 
     return (
         <React.Fragment>
@@ -198,7 +206,8 @@ const EditProfileForm = (props) => {
                 formObj={formObj}
                 initialValid={false}
                 disableSubmitButton={props.isLoading}
-                submitButtonLabel="Update Profile"
+                disableSubmitButtonNoLoading={!areReferencesSelected}
+                submitButtonLabel={props.isApplicationFormMode ? 'Continue' : 'Update Profile'}
                 headings={["Personal Details", "Work-related Details"]}
                 onSubmit={formState => {
                     let requestObj = {};
@@ -210,18 +219,18 @@ const EditProfileForm = (props) => {
 
                     requestObj.references = existingReferences;
 
-                    props.onSubmit(requestObj);
+                    props.onSubmit(requestObj, props.isApplicationFormMode ? selectedReferences : null);
                 }
                 }
             >
-                <BoxSeperator heading="References">
+                <BoxSeperator heading={`${props.isApplicationFormMode ? 'Select References' : 'References'}`}>
                     <AddReferences
                         existingReferences={existingReferences}
                         changeHandler={changeHandler}
                         onAddReference={addReferenceHandler}
-                    // selectedReferences={selectedReferences}
-                    // onSelectClick={selectReferenceHandler}
-                    // isApplicationFormMode
+                        selectedReferences={selectedReferences}
+                        onSelectClick={selectReferenceHandler}
+                        isApplicationFormMode={props.isApplicationFormMode}
                     />
                 </BoxSeperator>
             </FormComponentBlockSeparated>

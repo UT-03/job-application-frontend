@@ -19,6 +19,7 @@ import WarningModal from '../components/WarningModal';
 import ResumeUploadModal from '../components/ResumeUploadModal';
 import storage from '../util/firebase';
 import ErrorModal from '../components/ErrorModal';
+import PageLoadingSpinner from '../components/PageLoadingSpinner';
 
 const ApplicantProfile = () => {
     const [data, setData] = useState();
@@ -273,6 +274,7 @@ const ApplicantProfile = () => {
                     </React.Fragment>
                 )}
             </Container>
+            {!data && isLoading && <PageLoadingSpinner />}
         </React.Fragment>
     );
 };

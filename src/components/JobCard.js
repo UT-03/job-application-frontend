@@ -78,7 +78,14 @@ const JobCard = (props) => {
                                 Delete</Button>
                         </React.Fragment>
                     )}
-                    {auth.isLoggedIn && auth.userType === 'applicant' && <Button variant="primary" as={Link} to={`/apply-for-job/${props.jobData._id}`}>Apply</Button>}
+                    {auth.isLoggedIn && auth.userType === 'applicant' && (
+                        <Button
+                            variant="primary"
+                            onClick={() => navigate(`/apply-for-job/${props.jobData._id}`, { state: { stage: "review-profile" } })}
+                        >
+                            Apply
+                        </Button>
+                    )}
                 </Card.Body>
             </Card>
         </React.Fragment>

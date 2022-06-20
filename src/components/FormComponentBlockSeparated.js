@@ -55,7 +55,7 @@ const FormComponentBlockSeparated = (props) => {
 
                 <Button
                     type="submit"
-                    disabled={!formState.isValid || props.disableSubmitButton}>
+                    disabled={!formState.isValid || props.disableSubmitButton || props.disableSubmitButtonNoLoading}>
                     {props.disableSubmitButton && (
                         <Spinner
                             as="span"
