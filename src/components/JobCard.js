@@ -21,7 +21,9 @@ const JobCard = (props) => {
 
     const navigate = useNavigate();
 
+    // deletes the job posting on server
     const deleteJobPostingHandler = () => {
+        // sending request to backend
         return sendRequest(`${process.env.REACT_APP_HOSTNAME}/api/immigration-firm/delete-job-posting`,
             'DELETE',
             JSON.stringify({
@@ -31,41 +33,57 @@ const JobCard = (props) => {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + auth.token
             })
-            .then(() => setShowWarningModal(null))
-            .then(() => props.onJobPostingDelete(props.jobData._id))
+            .then(() => setShowWarningModal(null))  //hiding warning modal
+            .then(() => props.onJobPostingDelete(props.jobData._id))    //calling func to update frontend
     }
 
     return (
         <React.Fragment>
+            {/* ErrorModal */}
             <ErrorModal error={error} show={!!error} onHide={clearError} />
+
+            {/* Warning Modal for deleting job posting */}
             {!!showWarningModal && <WarningModal
                 show={!!showWarningModal}
                 data={showWarningModal}
                 onHide={() => setShowWarningModal(null)}
                 onActionButtonClick={deleteJobPostingHandler}
                 isLoading={isLoading} />}
+
+            {/* Job Card */}
             <Card className='w-100 shadow'>
                 <Card.Body>
+                    {/* Job Title */}
                     <Card.Title>{props.jobData.jobTitle}</Card.Title>
+
+                    {/* Job Location and Job Industry */}
                     <Card.Subtitle className="mb-2 text-muted">
                         <Image src={locationIcon} className='me-1' />
                         {props.jobData.jobLocation}
-                        <Image src={industryIcon} className='ms-3 me-1' />
+                    </Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted">
+                        <Image src={industryIcon} className='me-1' />
                         {props.jobData.industry}
                     </Card.Subtitle>
 
+                    {/* number of applications for job-visible only to owner immigration firm */}
                     <Card.Subtitle className="mb-2 text-muted d-block text-decoration-none" as={Link} to='/'>
                         {`${props.jobData.jobApplications.length} Application${props.jobData.jobApplications.length === 1 ? '' : 's'}`}
                     </Card.Subtitle>
 
+                    {/* keywords in pill badges */}
                     <Card.Subtitle>
                         {
-                            props.jobData.keyWords.map((tag, index) => (<Badge pill bg="secondary" className='text-black mx-1' key={index}>{tag}</Badge>))
+                            props.jobData.keyWords.map((tag, index) => (<Badge pill bg="secondary" className='text-white mx-1' key={index}>{tag}</Badge>))
                         }
                     </Card.Subtitle>
+
+                    {/* Job Description */}
                     <Card.Text style={{ whiteSpace: 'pre-wrap' }}>
                         {props.jobData.jobDescription}
                     </Card.Text>
+
+                    {/* EDIT and DELETE buttons - visible only to immigration firm account(only to owner of job posting) */}
                     {auth.isLoggedIn && auth.userType === 'immigration-firm' && auth.userId === props.jobData.postedBy && (
                         <React.Fragment>
                             <Button
@@ -82,12 +100,14 @@ const JobCard = (props) => {
                                 Delete</Button>
                         </React.Fragment>
                     )}
+
+                    {/* APLLY button - visible only to applicant accounts */}
                     {auth.isLoggedIn && auth.userType === 'applicant' && (
                         <Button
                             variant="primary"
                             onClick={() => navigate(`/apply-for-job/${props.jobData._id}`, { state: { stage: "review-profile" } })}
                         >
-                            Apply
+                            Apply for job
                         </Button>
                     )}
                 </Card.Body>
