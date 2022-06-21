@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import FormComponent from '../components/FormComponent';
@@ -10,9 +10,6 @@ import ErrorModal from '../components/ErrorModal';
 
 const EditJobPosting = () => {
     const { state } = useLocation();
-
-    const keyWords = useRef();
-    const [noOfKeyWords, setNoOfKeyWords] = useState(state.keyWords.length !== 0 ? state.keyWords.length : 1);
 
     const auth = useContext(AuthContext);
 
@@ -70,15 +67,15 @@ const EditJobPosting = () => {
             }
         },
         keyWords: {
+            formState: {
+                value: state.keyWords || [''],
+                isValid: true
+            },
             props: {
                 element: "multi-input",
                 type: "text",
                 label: "Enter keywords (optional)",
-                validators: [],
-                reference: keyWords,
-                noOfInputs: noOfKeyWords,
-                onFieldAdd: () => setNoOfKeyWords(prevNo => prevNo + 1),
-                defaultValues: state.keyWords
+                validators: []
             }
         }
     }
@@ -93,13 +90,6 @@ const EditJobPosting = () => {
                 initialValid={true}
                 disableSubmitButton={isLoading}
                 onSubmit={formState => {
-                    let keyWordsArray = [];
-                    for (let i = 0; i < noOfKeyWords; i++) {
-                        const value = keyWords.current.children["keyWordscontainer" + i].children["keyWords" + i].value;
-                        if (value !== '')
-                            keyWordsArray.push(value);
-                    }
-
                     return sendRequest(
                         `${process.env.REACT_APP_HOSTNAME}/api/immigration-firm/edit-job-posting`,
                         'PATCH',
@@ -109,7 +99,7 @@ const EditJobPosting = () => {
                             jobDescription: formState.jobDescription.value,
                             jobLocation: formState.jobLocation.value,
                             industry: formState.industry.value,
-                            keyWords: keyWordsArray
+                            keyWords: formState.keyWords.value
                         }),
                         {
                             'Content-Type': 'application/json',

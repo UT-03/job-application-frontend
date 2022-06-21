@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useState } from 'react';
+import React, { useReducer, useEffect, useState, useRef } from 'react';
 import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image';
 import Container from 'react-bootstrap/Container';
@@ -24,20 +24,23 @@ const inputReducer = (state, action) => {
 }
 
 const Input = (props) => {
+    const [multiInputData, setMultiInputData] = useState(props.initialValue || ['']);
+
     const [inputState, dispatch] = useReducer(inputReducer, {
-        value: props.initialValue || '',
+        value: props.initialValue || (props.element === 'multi-input' ? [''] : ''),
         isTouched: false,
         isValid: props.initialValid || false
     });
 
     const { id, onInput } = props;
     const { value, isValid } = inputState;
+
     useEffect(() => {
         if (onInput)
             onInput(id, value, isValid);
     }, [id, value, isValid, onInput]);
 
-    const changeHandler = event => {
+    const changeHandler = (event, index) => {
         let val = event.target.value;
 
         if (event.target.type === 'checkbox')
@@ -45,6 +48,13 @@ const Input = (props) => {
 
         if (props.type === 'file')
             val = event.target.files[0];
+
+        if (props.element === 'multi-input') {
+            const multiInputData$ = [...multiInputData];
+            multiInputData$[index] = event.target.value;
+            setMultiInputData(() => multiInputData$);
+            val = multiInputData$;
+        }
 
         dispatch({
             type: 'CHANGE',
@@ -63,17 +73,6 @@ const Input = (props) => {
     };
 
     const isInputInvalid = !inputState.isValid && inputState.isTouched;
-
-    let element$ = [];
-    if (props.element === 'multi-input') {
-        if (props.noOfInputs === 0)
-            element$.push(0);
-        else {
-            for (let i = 0; i < props.noOfInputs; i++) {
-                element$.push(i);
-            }
-        }
-    }
 
     let element;
     switch (props.element) {
@@ -164,20 +163,19 @@ const Input = (props) => {
             />
             break;
         case 'multi-input':
-            element = <Form.Group className='mb-4' ref={props.reference}>
+            element = <Form.Group className='mb-4'>
                 <Form.Label>{props.label}</Form.Label>
-                {element$.map(el => (
-                    <Container key={el} className="d-flex align-items-center py-1" id={props.id + 'container' + el}>
+                {multiInputData.map((el, index) => (
+                    <Container key={index} className="d-flex align-items-center py-1">
                         <Form.Control
                             className={`w-50`}
-                            id={props.id + el}
+                            id={props.id + index}
                             type={props.type}
-                            placeholder={props.placeholder}
-                            onChange={changeHandler}
+                            onChange={(e) => changeHandler(e, index)}
                             onBlur={touchHandler}
-                            defaultValue={props.defaultValues[el]}
+                            value={el}
                             disabled={props.disabled} />
-                        {el === props.noOfInputs - 1 && (
+                        {index === multiInputData.length - 1 && (
                             <Image
                                 className="mx-1"
                                 src={addIcon}
@@ -187,7 +185,11 @@ const Input = (props) => {
                                     cursor: "pointer",
                                     filter: 'invert(74%) sepia(1%) saturate(0%) hue-rotate(154deg) brightness(94%) contrast(91%)'
                                 }}
-                                onClick={props.onFieldAdd} />
+                                onClick={() => {
+                                    const multiInputData$ = [...multiInputData];
+                                    multiInputData$.push(['']);
+                                    setMultiInputData(multiInputData$);
+                                }} />
                         )}
                     </Container>
                 ))}

@@ -22,7 +22,7 @@ const FormComponent = (props) => {
 
     const [formState, inputHandler] = useForm(formStateObj, props.initialValid);
     return (
-        <Container>
+        <Container className='my-5'>
             <Form
                 className="w-75 mx-auto"
                 onSubmit={(e) => {

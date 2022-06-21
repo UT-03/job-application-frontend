@@ -22,17 +22,18 @@ const Header = () => {
             <Container>
                 <Navbar.Brand as={Link} to="/">Brand</Navbar.Brand>
                 <Navbar.Toggle
+                    as="div"
                     style={{
                         boxShadow: "none",
                         border: "none"
                     }}
                     aria-controls="basic-navbar-nav"
                     onClick={() => setExpanded(expanded ? false : "expanded")}>
-                    <button class={`hamburger hamburger--twist ${expanded ? 'active' : ''}`} type="button">
-                        <div class="inner">
-                            <span class="bar"></span>
-                            <span class="bar"></span>
-                            <span class="bar"></span>
+                    <button className={`hamburger hamburger--twist ${expanded ? 'active' : ''}`} type="button">
+                        <div className="inner">
+                            <span className="bar"></span>
+                            <span className="bar"></span>
+                            <span className="bar"></span>
                         </div>
                     </button>
                 </Navbar.Toggle>
