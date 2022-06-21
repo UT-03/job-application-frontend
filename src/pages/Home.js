@@ -1,9 +1,14 @@
 import React from 'react';
 import Header from '../components/Header';
+import HomePage from '../components/StyleComponents/HomePage';
 
 const Home = () => {
     return (
-        <Header />
+        <React.Fragment>
+            <Header />
+            <HomePage />
+        </React.Fragment>
+
     );
 };
 

@@ -27,7 +27,7 @@ const FormComponentBlockSeparated = (props) => {
     return (
         <Container>
             <Form
-                className="w-75 mx-auto"
+                className="mx-auto edit-profile-form"
                 onSubmit={(e) => {
                     e.preventDefault();
                     props.onSubmit(formState);

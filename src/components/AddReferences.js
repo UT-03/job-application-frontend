@@ -7,7 +7,7 @@ import Image from 'react-bootstrap/Image';
 import Input from './Input';
 import { VALIDATOR_EMAIL, VALIDATOR_REQUIRE } from '../util/validators';
 import TwoColumnStructuringWrapper from './TwoColumnStructuringWrapper';
-import deleteIcon from '../assets/images/deleteIcon.svg';
+import addIcon from '../assets/images/addIcon.svg';
 
 const AddReferences = (props) => {
     return (
@@ -69,9 +69,19 @@ const AddReferences = (props) => {
                     </Container>
                 );
             })}
-            <Button
+            <Image
                 className="d-block mx-auto"
-                onClick={props.onAddReference}>+</Button>
+                src={addIcon}
+                style={{
+                    width: "20px",
+                    height: "20px",
+                    cursor: "pointer",
+                    filter: 'invert(14%) sepia(20%) saturate(4531%) hue-rotate(171deg) brightness(96%) contrast(104%)'
+                }}
+                onClick={props.onAddReference} />
+            {/* <Button
+                className="d-block mx-auto"
+                onClick={props.onAddReference}>+</Button> */}
         </React.Fragment>
     );
 };

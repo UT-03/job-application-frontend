@@ -184,7 +184,8 @@ const Input = (props) => {
                                 style={{
                                     width: "20px",
                                     height: "20px",
-                                    cursor: "pointer"
+                                    cursor: "pointer",
+                                    filter: 'invert(74%) sepia(1%) saturate(0%) hue-rotate(154deg) brightness(94%) contrast(91%)'
                                 }}
                                 onClick={props.onFieldAdd} />
                         )}

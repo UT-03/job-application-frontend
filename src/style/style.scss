@@ -1,0 +1,109 @@
+// VARIABLE DECLARATIONS
+$blue-light: #084356;
+$blue-dark: #003049;
+$red-dark: #990011FF;
+$new-secondary: rgb(215, 202, 200);
+
+@import "~bootstrap/scss/functions";
+
+// DEFAULT VARIABLE OVERRIDING
+$primary: $blue-dark;
+$danger: $red-dark;
+$input-btn-focus-box-shadow: none !important;
+$btn-box-shadow: none !important;
+$btn-focus-box-shadow: none !important;
+$btn-active-box-shadow: none !important;
+
+@import "~bootstrap/scss/variables";
+
+// VARIABLE OVERRIDING THAT REQUIRE BOOTSTRAP VARIABLES
+
+// IMPORTING THE BOOTSTRAP STYLESHEET
+@import "~bootstrap/scss/bootstrap.scss";
+
+// MIXINS
+@mixin gradient {
+    background: linear-gradient(to right, rgba($blue-dark, 0.95), rgba($blue-light, 0.95));
+}
+
+// STYLINGS
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+* {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    // border: 1px solid red;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.form-control.invalid:focus {
+    border-color: rgb(220, 53, 69);
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.gradient {
+    @include gradient;
+}
+
+.homepage--heart {
+    width: 30px;
+
+    @include media-breakpoint-up(md) {
+        width: 35px
+    }
+
+    @include media-breakpoint-up(lg) {
+        width: 60px;
+    }
+}
+
+.homepage--headline {
+    font-size: calc(1.475rem + 1.7vw);
+
+    @include media-breakpoint-up(sm) {
+        font-size: calc(1.475rem + 2.7vw);
+    }
+
+    @include media-breakpoint-up(md) {
+        font-size: calc(1.475rem + 1.5vw);
+    }
+
+    @include media-breakpoint-up(lg) {
+        font-size: calc(1.475rem + 2.7vw);
+    }
+}
+
+.resume-display--container {
+    width: 100%;
+    max-width: 22rem;
+
+    @include media-breakpoint-up(sm) {
+        width: 50%;
+    }
+
+    @include media-breakpoint-up(lg) {
+        width: 40%;
+    }
+
+    .resume-display--buttons-box {
+        margin-top: 5px;
+
+        @include media-breakpoint-up(md) {
+            margin-top: 0;
+            justify-content: end;
+        }
+    }
+}
+
+.edit-profile-form {
+    width: 100%;
+
+    @include media-breakpoint-up(md) {
+        width: 75%;
+    }
+}

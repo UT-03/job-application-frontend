@@ -203,21 +203,19 @@ const ApplicantProfile = () => {
                                 <h5>Resume</h5>
 
                                 {data.resume && data.resume.length !== 0 && data.resume.map((url, index) => (
-                                    <Row className="my-2 w-50 py-2 bg-light rounded" key={index}>
-                                        <Col xs={3} lg={6} className="d-flex align-items-center">
-                                            <h6 className="text-muted">Resume {index + 1}</h6>
+                                    <Row className="my-2 py-2 px-0 mx-0 bg-light rounded resume-display--container" key={index}>
+                                        <Col xs={12} md={4} className="d-flex align-items-center resume-display--heading-box">
+                                            <h6 className="text-muted mb-0">Resume {index + 1}</h6>
                                         </Col>
-                                        <Col>
+                                        <Col xs={12} md={8} className="d-flex resume-display--buttons-box">
                                             <Button
                                                 as="a"
                                                 href={url}
                                                 target="_blank"
                                                 variant="outline-primary"
-                                                className="d-inline-block">
+                                                className="d-block me-2">
                                                 View
                                             </Button>
-                                        </Col>
-                                        <Col>
                                             <Button
                                                 onClick={() => setShowWarningModel({
                                                     message: "Are you sure you want to delete this resume?",
