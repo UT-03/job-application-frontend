@@ -5,7 +5,7 @@ import Spinner from 'react-bootstrap/Spinner';
 const PageLoadingSpinner = () => {
     return (
         <Container
-            className="d-flex align-items-center justify-content-center mb-4"
+            className="d-flex align-items-center justify-content-center my-5"
         >
             <Spinner animation="border" variant='primary'
                 style={{

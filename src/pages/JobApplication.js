@@ -5,6 +5,7 @@ import { AuthContext } from '../context/AuthContext';
 import { useHttpClient } from '../hooks/HttpHook';
 import ErrorModal from '../components/ErrorModal';
 import SelectResume from '../components/SelectResume';
+import PageLoadingSpinner from '../components/PageLoadingSpinner';
 
 const JobApplication = () => {
     const { state } = useLocation();
@@ -72,6 +73,9 @@ const JobApplication = () => {
     return (
         <React.Fragment>
             <ErrorModal show={!!error} error={error} onHide={clearError} />
+            {!data && state.stage === "review-profile" && (
+                <PageLoadingSpinner />
+            )}
             {state.stage === "review-profile" && data && (
                 <EditProfileForm
                     formState={data}
