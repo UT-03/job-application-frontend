@@ -18,6 +18,7 @@ import WarningModal from '../components/WarningModal';
 import ResumeUploadModal from '../components/ResumeUploadModal';
 import ErrorModal from '../components/ErrorModal';
 import PageLoadingSpinner from '../components/PageLoadingSpinner';
+import DisplayResumeList from '../components/DisplayResumeList';
 
 const ApplicantProfile = () => {
     const [data, setData] = useState();
@@ -50,9 +51,8 @@ const ApplicantProfile = () => {
             fetchApplicantData();
     }, [auth]);
 
-    const deleteResumeHandler = (value) => {
-        const resumeToBeDeleted = value.resumeURL;
-
+    const deleteResumeHandler = (dataFromWarningModal) => {
+        const resumeToBeDeleted = dataFromWarningModal.resumeURL;
         return sendRequest(`${process.env.REACT_APP_HOSTNAME}/api/applicant/delete-resume`,
             'DELETE',
             JSON.stringify({
@@ -89,7 +89,7 @@ const ApplicantProfile = () => {
             <ResumeUploadModal
                 show={showResumeUploadModel}
                 onHide={() => setShowResumeUploadModel(false)}
-                onResumeSubmit={onResumeUpload} />
+                onResumeUpload={onResumeUpload} />
             <Container className="pt-5 px-0">
                 {data && (
                     <React.Fragment>
@@ -151,31 +151,17 @@ const ApplicantProfile = () => {
                                     ]} />
                                 <h5>Resume</h5>
 
-                                {data.resume && data.resume.length !== 0 && data.resume.map((url, index) => (
-                                    <Row className="my-2 py-2 px-0 mx-0 bg-light rounded resume-display--container" key={index}>
-                                        <Col xs={12} md={4} className="d-flex align-items-center resume-display--heading-box">
-                                            <h6 className="text-muted mb-0">Resume {index + 1}</h6>
-                                        </Col>
-                                        <Col xs={12} md={8} className="d-flex resume-display--buttons-box">
-                                            <Button
-                                                as="a"
-                                                href={url}
-                                                target="_blank"
-                                                variant="outline-primary"
-                                                className="d-block me-2">
-                                                View
-                                            </Button>
-                                            <Button
-                                                onClick={() => setShowWarningModel({
-                                                    message: "Are you sure you want to delete this resume?",
-                                                    actionButtonLabel: "Delete",
-                                                    resumeURL: url
-                                                })}
-                                                variant="primary"
-                                                className="d-block">Delete</Button>
-                                        </Col>
-                                    </Row>
-                                ))}
+                                <DisplayResumeList
+                                    resumeArray={data.resume}
+                                    onActionButtonClick={(url) => {
+                                        setShowWarningModel({
+                                            message: "Are you sure you want to delete this resume?",
+                                            actionButtonLabel: "Delete",
+                                            resumeURL: url
+                                        })
+                                    }}
+                                    actionButtonLabel="Delete"
+                                />
 
                                 {data.resume.length === 0 && (
                                     <h6 className="mb-4 text-muted d-flex">

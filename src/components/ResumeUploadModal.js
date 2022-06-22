@@ -78,7 +78,7 @@ const ResumeUploadModal = (props) => {
                             .then(() => {
                                 setIsUploading(false);
                                 setShowProgressBar(false);
-                                props.onResumeSubmit(url);
+                                props.onResumeUpload(url);
 
                                 props.onHide();
                             });

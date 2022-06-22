@@ -85,12 +85,14 @@ const JobApplication = () => {
                 />
             )}
             {state.stage === "resume-select" && data && (
-                <SelectResume
-                    resumeURLs={state.resumeURLs}
-                    selectedResume={selectedResume}
-                    onSelectResume={resumeSelectHandler}
-                    onResumeSubmit={resumeSubmitHandler}
-                    isLoading={isLoading} />
+                <React.Fragment>
+                    <SelectResume
+                        resumeURLs={data.resume}
+                        selectedResume={selectedResume}
+                        onSelectResume={resumeSelectHandler}
+                        onResumeSubmit={resumeSubmitHandler}
+                        isLoading={isLoading} />
+                </React.Fragment>
             )}
         </React.Fragment>
     );
