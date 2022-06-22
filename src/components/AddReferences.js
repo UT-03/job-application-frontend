@@ -12,6 +12,9 @@ import addIcon from '../assets/images/addIcon.svg';
 const AddReferences = (props) => {
     return (
         <React.Fragment>
+            {props.isApplicationFormMode && (
+                <h6 className="mb-4 text-muted d-flex">You must select 3 references to apply for the job.</h6>
+            )}
             {props.existingReferences.map((ref, index) => {
                 const isSelected = props.isApplicationFormMode ? props.selectedReferences.includes(index) : null;
                 return (

@@ -7,7 +7,6 @@ import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image';
 import { useNavigate } from 'react-router-dom';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 import { AuthContext } from '../context/AuthContext';
 import { useHttpClient } from '../hooks/HttpHook';
@@ -17,7 +16,6 @@ import BlockSeparator from '../components/BlockSeparator';
 import ProfileData from '../components/ProfileData';
 import WarningModal from '../components/WarningModal';
 import ResumeUploadModal from '../components/ResumeUploadModal';
-import storage from '../util/firebase';
 import ErrorModal from '../components/ErrorModal';
 import PageLoadingSpinner from '../components/PageLoadingSpinner';
 
@@ -25,9 +23,7 @@ const ApplicantProfile = () => {
     const [data, setData] = useState();
     const [showWarningModel, setShowWarningModel] = useState();
     const [showResumeUploadModel, setShowResumeUploadModel] = useState(false);
-    const [showProgressBar, setShowProgressBar] = useState(false);
-    const [progress, setProgress] = useState(false);
-    const [isUploading, setIsUploading] = useState(false);
+
 
     const auth = useContext(AuthContext);
 
@@ -75,55 +71,10 @@ const ApplicantProfile = () => {
             });
     }
 
-    const handleResumeUpload = (formData) => {
-        setIsUploading(true);
-
-        const file = formData.resume.value;
-
-        setShowProgressBar(true);
-        const fileName = new Date().getTime() + file.name;
-
-        const storageRef = ref(storage, `/uploads/resume/${fileName}`);
-
-        const metaData = {
-            contentType: file.type
-        }
-
-        const uploadTask = uploadBytesResumable(storageRef, file, metaData);
-        uploadTask.on("state_changed",
-            snapshot => {
-                const uploaded = Math.floor(
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                );
-                setProgress(uploaded);
-            },
-            error => {
-                console.log(error);
-            },
-            () => {
-                getDownloadURL(uploadTask.snapshot.ref)
-                    .then(url => {
-                        return sendRequest(`${process.env.REACT_APP_HOSTNAME}/api/applicant/update-resume-url`,
-                            'PATCH',
-                            JSON.stringify({
-                                resumeURL: url
-                            }),
-                            {
-                                'Content-Type': 'application/json',
-                                Authorization: 'Bearer ' + auth.token
-                            })
-                            .then(() => {
-                                setShowResumeUploadModel(false);
-                                setIsUploading(false);
-                                setShowProgressBar(false);
-
-                                const data$ = { ...data };
-                                data$.resume.push(url);
-                                setData(() => data$);
-                            });
-                    });
-            }
-        )
+    const onResumeUpload = (url) => {
+        const data$ = { ...data };
+        data$.resume.push(url);
+        setData(() => data$);
     }
 
     return (
@@ -138,10 +89,7 @@ const ApplicantProfile = () => {
             <ResumeUploadModal
                 show={showResumeUploadModel}
                 onHide={() => setShowResumeUploadModel(false)}
-                onResumeSubmit={handleResumeUpload}
-                isLoading={isUploading}
-                progress={progress}
-                showProgressBar={showProgressBar} />
+                onResumeSubmit={onResumeUpload} />
             <Container className="pt-5 px-0">
                 {data && (
                     <React.Fragment>
