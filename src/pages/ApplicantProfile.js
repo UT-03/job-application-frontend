@@ -44,6 +44,7 @@ const ApplicantProfile = () => {
                 Authorization: 'Bearer ' + auth.token
             })
             .then(res => {
+                console.log(res)
                 setData(() => res.applicantProfileData);
             });
     }

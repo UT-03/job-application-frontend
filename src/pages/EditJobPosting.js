@@ -68,7 +68,7 @@ const EditJobPosting = () => {
         },
         keyWords: {
             formState: {
-                value: state.keyWords || [''],
+                value: state.keyWords.length === 0 ? [''] : state.keyWords,
                 isValid: true
             },
             props: {

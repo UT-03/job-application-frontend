@@ -171,6 +171,18 @@ const EditProfileForm = (props) => {
                     options: Object.values(canadaProvinces)
                 }
             },
+            searchKeyWords: {
+                formState: {
+                    value: props.formState.searchKeyWords.length === 0 ? [''] : props.formState.searchKeyWords,
+                    isValid: true
+                },
+                props: {
+                    element: "multi-input",
+                    type: "text",
+                    label: "Enter search keywords (optional)",
+                    validators: []
+                }
+            }
         }
     }
 
@@ -204,7 +216,7 @@ const EditProfileForm = (props) => {
         <React.Fragment>
             <FormComponentBlockSeparated
                 formObj={formObj}
-                initialValid={false}
+                initialValid={true}
                 disableSubmitButton={props.isLoading}
                 disableSubmitButtonNoLoading={!areReferencesSelected}
                 submitButtonLabel={props.isApplicationFormMode ? 'Continue' : 'Update Profile'}
