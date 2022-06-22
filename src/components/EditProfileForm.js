@@ -218,7 +218,7 @@ const EditProfileForm = (props) => {
                 formObj={formObj}
                 initialValid={true}
                 disableSubmitButton={props.isLoading}
-                disableSubmitButtonNoLoading={!areReferencesSelected}
+                disableSubmitButtonNoLoading={props.isApplicationFormMode ? !areReferencesSelected : false}
                 submitButtonLabel={props.isApplicationFormMode ? 'Continue' : 'Update Profile'}
                 headings={["Personal Details", "Work-related Details"]}
                 onSubmit={formState => {

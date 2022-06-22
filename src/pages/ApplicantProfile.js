@@ -236,6 +236,7 @@ const ApplicantProfile = () => {
                                 )}
 
                                 <Button
+                                    className="mb-4"
                                     onClick={() => setShowResumeUploadModel(true)}>Upload resume</Button>
 
                                 {data.haveValidVisaForCanada && (
@@ -245,6 +246,18 @@ const ApplicantProfile = () => {
                                         checked
                                         readOnly />
                                 )}
+
+                                {data.searchKeyWords.length > 0 && (
+                                    <ProfileData
+                                        data={[
+                                            {
+                                                label: "Search Keywords",
+                                                value: data.searchKeyWords.join(', ')
+                                            }
+                                        ]} />
+
+                                )}
+
 
                                 <BlockSeparator heading="References" />
 

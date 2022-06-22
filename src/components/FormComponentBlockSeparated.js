@@ -9,7 +9,6 @@ import Input from './Input';
 import BoxSeperator from './BoxSeperator';
 
 const FormComponentBlockSeparated = (props) => {
-    console.log(props)
     const formObj = { ...props.formObj };
 
     const formStateObj = {};
