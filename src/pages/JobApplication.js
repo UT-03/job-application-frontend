@@ -52,7 +52,13 @@ const JobApplication = () => {
         if (selectedResume === index)
             setSelectedResume(null);
         else
-            setSelectedResume(index);
+            setSelectedResume(() => index);
+    }
+
+    const onResumeUpload = (url) => {
+        const data$ = { ...data };
+        data$.resume.push(url);
+        setData(() => data$);
     }
 
     const resumeSubmitHandler = () => {
@@ -61,7 +67,7 @@ const JobApplication = () => {
             JSON.stringify({
                 requestObj: state.profileDataObj,
                 selectedReferencesIndex: state.selectedReferencesIndex,
-                selectedResume: state.resumeURLs[selectedResume]
+                selectedResume: data.resume[selectedResume]
             }),
             {
                 'Content-Type': 'application/json',
@@ -91,6 +97,7 @@ const JobApplication = () => {
                         selectedResume={selectedResume}
                         onSelectResume={resumeSelectHandler}
                         onResumeSubmit={resumeSubmitHandler}
+                        onResumeUpload={onResumeUpload}
                         isLoading={isLoading} />
                 </React.Fragment>
             )}

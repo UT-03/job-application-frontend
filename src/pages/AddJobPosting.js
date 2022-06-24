@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import FormComponent from '../components/FormComponent';
@@ -8,10 +8,7 @@ import { VALIDATOR_REQUIRE } from '../util/validators';
 import { canadaProvinces, industries } from '../util/GlobalVariables';
 import ErrorModal from '../components/ErrorModal';
 
-const AddJobPosting = (props) => {
-    const keyWords = useRef();
-    const [noOfKeyWords, setNoOfKeyWords] = useState(1);
-
+const AddJobPosting = () => {
     const auth = useContext(AuthContext);
 
     const navigate = useNavigate();
@@ -68,15 +65,15 @@ const AddJobPosting = (props) => {
             }
         },
         keyWords: {
+            formState: {
+                value: [''],
+                isValid: true
+            },
             props: {
                 element: "multi-input",
                 type: "text",
                 label: "Enter keywords (optional)",
-                validators: [],
-                reference: keyWords,
-                noOfInputs: noOfKeyWords,
-                onFieldAdd: () => setNoOfKeyWords(prevNo => prevNo + 1),
-                defaultValues: []
+                validators: []
             }
         }
     }
@@ -91,13 +88,6 @@ const AddJobPosting = (props) => {
                 initialValid={false}
                 disableSubmitButton={isLoading}
                 onSubmit={formState => {
-                    let keyWordsArray = [];
-                    for (let i = 0; i < noOfKeyWords; i++) {
-                        const value = keyWords.current.children["keyWordscontainer" + i].children["keyWords" + i].value;
-                        if (value !== '')
-                            keyWordsArray.push(value);
-                    }
-
                     return sendRequest(
                         `${process.env.REACT_APP_HOSTNAME}/api/immigration-firm/new-job-posting`,
                         'POST',
@@ -106,7 +96,7 @@ const AddJobPosting = (props) => {
                             jobDescription: formState.jobDescription.value,
                             jobLocation: formState.jobLocation.value,
                             industry: formState.industry.value,
-                            keyWords: keyWordsArray
+                            keyWords: formState.keyWords.value
                         }),
                         {
                             'Content-Type': 'application/json',

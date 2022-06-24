@@ -17,9 +17,10 @@ const SelectResume = (props) => {
         data$.push(url);
         setData(() => data$);
 
-        setShowResumeUploadModel(false);
+        // props.onSelectResume(data$.length - 1)
+        props.onResumeUpload(url);
 
-        props.onSelectResume(data$.length - 1);
+        setShowResumeUploadModel(false);
     }
 
     return (
