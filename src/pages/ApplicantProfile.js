@@ -33,6 +33,7 @@ const ApplicantProfile = () => {
 
     const navigate = useNavigate();
 
+    // Fetches applicant profile data amd sets the state 'data'
     const fetchApplicantData = () => {
         return sendRequest(`${process.env.REACT_APP_HOSTNAME}/api/applicant/profile-data`,
             'GET',
@@ -42,16 +43,17 @@ const ApplicantProfile = () => {
                 Authorization: 'Bearer ' + auth.token
             })
             .then(res => {
-                console.log(res)
                 setData(() => res.applicantProfileData);
             });
     }
 
     useEffect(() => {
+        // fetching applicant data if user is logged in
         if (auth.isLoggedIn)
             fetchApplicantData();
     }, [auth]);
 
+    // Deletes the resume in backend and updates th UI on success
     const deleteResumeHandler = (dataFromWarningModal) => {
         const resumeToBeDeleted = dataFromWarningModal.resumeURL;
         return sendRequest(`${process.env.REACT_APP_HOSTNAME}/api/applicant/delete-resume`,
@@ -72,6 +74,7 @@ const ApplicantProfile = () => {
             });
     }
 
+    // Changes the UI on resume upload
     const onResumeUpload = (url) => {
         const data$ = { ...data };
         data$.resume.push(url);
@@ -94,13 +97,18 @@ const ApplicantProfile = () => {
             <Container className="pt-5 px-0">
                 {data && (
                     <React.Fragment>
+                        {/* EDIT PROFILE button */}
                         <Button
                             variant='outline-primary'
                             onClick={() => navigate('/edit-profile', { state: data })}
                             className="mb-3 d-block ms-auto"
                         >Edit Profile</Button>
+
+                        {/* APPLICANT PROFILE card */}
                         <ApplicantProfileCard
                             data={data} >
+
+                            {/* applicant RESUME */}
                             <h5>Resume</h5>
                             <DisplayResumeList
                                 resumeArray={data.resume}

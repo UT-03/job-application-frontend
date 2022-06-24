@@ -107,7 +107,7 @@ const EditJobPosting = () => {
                         }
                     )
                         .then(() => {
-                            navigate('/');
+                            navigate('/view-my-job-postings');
                         })
                 }}
             />

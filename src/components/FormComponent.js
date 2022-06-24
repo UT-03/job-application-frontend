@@ -41,6 +41,7 @@ const FormComponent = (props) => {
                 <Button type="submit" disabled={!formState.isValid || props.disableSubmitButton}>
                     {props.disableSubmitButton && (
                         <Spinner
+                            className="me-2"
                             as="span"
                             animation="grow"
                             size="sm"

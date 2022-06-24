@@ -11,7 +11,7 @@ const Auth = () => {
     const [userType, setUserType] = useState(null);
     return (
         <Container className='min-vh-100 d-flex flex-column justify-content-center'>
-            <h6 className='display-6 text-center mb-3'>Login to *Brand*</h6>
+            <h6 className='display-6 text-center mb-3 mt-5'>Login to Brand</h6>
             <Row>
                 <Col xs={12} lg={6} className={`${!userType && 'd-flex align-items-center'}`}>
                     {!userType && (

@@ -6,13 +6,9 @@ import { useNavigate } from 'react-router-dom';
 const JobApplicantCard = (props) => {
     const navigate = useNavigate();
 
-    console.log(props)
-
     const applicantData = props.applicantData.applicantProfile;
     applicantData.resume = props.applicantData.resume;
     applicantData.references = props.applicantData.references;
-
-    console.log(applicantData);
 
     return (
         <Card className='w-100 shadow my-3' ref={props.lastDataRef ? props.lastDataRef : null}>

@@ -1,9 +1,12 @@
 import { useState, useCallback, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const useAuth = () => {
     const [token, setToken] = useState();
     const [userType, setUserType] = useState();
     const [userId, setUserId] = useState();
+
+    const navigate = useNavigate();
 
     const login = useCallback((token, userType, userId) => {
         setToken(token);
@@ -25,6 +28,8 @@ export const useAuth = () => {
         setUserType(null);
         setUserId(null);
         localStorage.removeItem('immigrationJobUserData');
+
+        navigate('/')
     }, []);
 
     useEffect(() => {

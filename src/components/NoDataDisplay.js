@@ -9,7 +9,7 @@ import noDataIllustration from '../assets/images/noDataIllustration.svg';
 const NoDataDisplay = (props) => {
     return (
         <React.Fragment>
-            <Container className='min-vh-100 d-flex flex-column justify-content-center'>
+            <Container className='min-vh-50 d-flex flex-column justify-content-center'>
                 <Row>
                     <Col lg={6} className="d-lg-block">
                         <Image src={noDataIllustration} style={{ width: "30vw" }} className="d-block m-auto w-50" />

@@ -12,7 +12,6 @@ const SelectResume = (props) => {
     const [showResumeUploadModel, setShowResumeUploadModel] = useState(false);
 
     const onResumeUpload = (url) => {
-        console.log(url)
         const data$ = [...data];
         data$.push(url);
         setData(() => data$);

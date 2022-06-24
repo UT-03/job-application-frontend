@@ -88,6 +88,7 @@ const AddJobPosting = () => {
                 initialValid={false}
                 disableSubmitButton={isLoading}
                 onSubmit={formState => {
+                    // sending request with new job details
                     return sendRequest(
                         `${process.env.REACT_APP_HOSTNAME}/api/immigration-firm/new-job-posting`,
                         'POST',
@@ -104,7 +105,8 @@ const AddJobPosting = () => {
                         }
                     )
                         .then(() => {
-                            navigate('/');
+                            // Navigating to home on success
+                            navigate('/view-my-job-postings');
                         })
                 }} />
         </React.Fragment>

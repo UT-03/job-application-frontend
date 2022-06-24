@@ -66,10 +66,19 @@ const JobCard = (props) => {
                         {props.jobData.industry}
                     </Card.Subtitle>
 
-                    {/* number of applications for job-visible only to owner immigration firm */}
-                    <Card.Subtitle className="mb-2 text-muted d-block text-decoration-none" as={Link} to={`/view-job-applicants/${props.jobData._id}`}>
-                        {`${props.jobData.jobApplications.length} Application${props.jobData.jobApplications.length === 1 ? '' : 's'}`}
-                    </Card.Subtitle>
+                    {/* number of applications for job - visible to everyone but clickable by owner immigration form only */}
+                    {auth.isLoggedIn && auth.userType === 'immigration-firm' && props.jobData.postedBy.toString() === auth.userId ? (
+                        <Card.Subtitle className="mb-2 text-muted d-block text-decoration-none" as={Link} to={`/view-job-applicants/${props.jobData._id}`}>
+                            {`${props.jobData.jobApplications.length} Application${props.jobData.jobApplications.length === 1 ? '' : 's'}`}
+                        </Card.Subtitle>
+                    ) : (
+                        <Card.Subtitle className="mb-2 text-muted d-block text-decoration-none">
+                            {`${props.jobData.jobApplications.length} Application${props.jobData.jobApplications.length === 1 ? '' : 's'}`}
+                        </Card.Subtitle>
+                    )}
+
+                    {/* Number of applications - visible to everyone else */}
+
 
                     {/* keywords in pill badges */}
                     <Card.Subtitle>

@@ -7,7 +7,6 @@ import ApplicantProfileCard from '../components/ApplicantProfileCard';
 
 const ViewJobApplicantProfile = () => {
     const { state } = useLocation();
-    console.log(state)
 
     const applicantData = state.applicantData;
 

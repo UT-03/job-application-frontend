@@ -45,7 +45,6 @@ const ViewJobApplicants = () => {
             }
         )
             .then(res => {
-                console.log(res);
                 setHasMoreData(res.hasMoreData);
                 setData(prevData => {
                     return [
@@ -72,7 +71,7 @@ const ViewJobApplicants = () => {
                 ))}
                 {!isLoading && data && data.length === 0 && (
                     <NoDataDisplay
-                        heading="Looks like you have not posted any Job yet..." />
+                        heading="Looks like no one has applied for your job yet..." />
                 )}
 
                 {isLoading && (

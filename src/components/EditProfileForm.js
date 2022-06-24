@@ -24,10 +24,6 @@ const EditProfileForm = (props) => {
     }) || []);
 
     useEffect(() => {
-        console.log(selectedProvinces)
-    }, [selectedProvinces])
-
-    useEffect(() => {
         if (selectedReferences.length === 3)
             setAreReferencesSelected(true);
         else
