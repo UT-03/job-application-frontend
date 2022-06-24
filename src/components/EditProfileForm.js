@@ -16,13 +16,23 @@ const EditProfileForm = (props) => {
     ]);
     const [selectedReferences, setSelectedReferences] = useState([]);
     const [areReferencesSelected, setAreReferencesSelected] = useState(false);
+    const [selectedProvinces, setSelectedProvinces] = useState(props.formState.provincesOfCanadaWhereInterestedToWork.map(pro => {
+        return {
+            value: pro,
+            label: pro
+        }
+    }) || []);
+
+    useEffect(() => {
+        console.log(selectedProvinces)
+    }, [selectedProvinces])
 
     useEffect(() => {
         if (selectedReferences.length === 3)
             setAreReferencesSelected(true);
         else
             setAreReferencesSelected(false);
-    }, [selectedReferences])
+    }, [selectedReferences]);
 
     const formObj = {
         group1: {
@@ -157,18 +167,43 @@ const EditProfileForm = (props) => {
                     validators: [VALIDATOR_REQUIRE()]
                 }
             },
-            provinceOfCanadaWhereInterestedToWork: {
+            salaryExpectation: {
                 formState: {
-                    value: props.formState.provinceOfCanadaWhereInterestedToWork,
-                    isValid: props.formState.provinceOfCanadaWhereInterestedToWork ? true : false
+                    value: props.formState.salaryExpectation || 0,
+                    isValid: props.formState.salaryExpectation ? true : false
                 },
                 props: {
-                    element: "select",
+                    element: "input",
+                    type: "number",
+                    label: "Salary Expectation (in Canadian $)",
+                    validators: [VALIDATOR_REQUIRE()]
+                }
+            },
+            provincesOfCanadaWhereInterestedToWork: {
+                formState: {
+                    value: props.formState.provincesOfCanadaWhereInterestedToWork.map(pro => {
+                        return {
+                            value: pro,
+                            label: pro
+                        }
+                    }),
+                    isValid: true
+                },
+                props: {
+                    element: "multi-select",
                     type: "select",
+                    multiple: true,
                     label: "Province of Canada where you are interested to work",
-                    defaultOption: "Please select the province in Canada where you want to work",
-                    validators: [VALIDATOR_REQUIRE()],
-                    options: Object.values(canadaProvinces)
+                    defaultOption: "Please select the provinces in Canada where you want to work",
+                    validators: [],
+                    options: Object.values(canadaProvinces).map(province => {
+                        return {
+                            value: province,
+                            label: province
+                        }
+                    }),
+                    selected: selectedProvinces,
+                    setSelected: setSelectedProvinces
                 }
             },
             searchKeyWords: {
@@ -230,6 +265,8 @@ const EditProfileForm = (props) => {
                     }
 
                     requestObj.references = existingReferences;
+
+                    requestObj.provincesOfCanadaWhereInterestedToWork = selectedProvinces.map(pro => pro.value);
 
                     props.onSubmit(requestObj, props.isApplicationFormMode ? selectedReferences : null);
                 }

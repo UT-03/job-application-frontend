@@ -2,6 +2,8 @@ import React, { useReducer, useEffect, useState, useRef } from 'react';
 import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image';
 import Container from 'react-bootstrap/Container';
+import Select from 'react-select';
+
 import { validate } from '../util/validators';
 import addIcon from '../assets/images/addIcon.svg';
 
@@ -25,6 +27,8 @@ const inputReducer = (state, action) => {
 
 const Input = (props) => {
     const [multiInputData, setMultiInputData] = useState(props.initialValue || ['']);
+
+    const [multiSelect, setMultiSelect] = useState(null);
 
     const [inputState, dispatch] = useReducer(inputReducer, {
         value: props.initialValue || (props.element === 'multi-input' ? [''] : ''),
@@ -145,6 +149,35 @@ const Input = (props) => {
                     <option value="">{props.defaultOption}</option>
                     {props.options.map((option, index) => <option key={index}>{option}</option>)}
                 </Form.Select>
+                {!inputState.isValid && inputState.isTouched && (
+                    <Form.Text className="text-danger d-block">{props.errorText || 'This field is required.'}</Form.Text>
+                )}
+                <Form.Text className="text-muted">{props.extraText}</Form.Text>
+            </Form.Group>
+            break;
+        case 'multi-select':
+            element = <Form.Group className="mb-4">
+                <Form.Label className={`${isInputInvalid && "text-danger"}`}>{props.label}</Form.Label>
+                <Select
+                    defaultValue={props.initialValue}
+                    onChange={props.setSelected}
+                    options={props.options}
+                    isMulti={true}
+                    allowSelectAll={true}
+                    closeMenuOnSelect={false}
+                    hideSelectedOptions={true}
+                    placeholder={props.defaultOption}
+                    noOptionsMessage={props.noOptionsMessage}
+                />
+                {/* <Form.Select
+                    className={`${isInputInvalid && "invalid border border-danger"}`}
+                    multiple={true}
+                    onChange={changeHandler}
+                    onBlur={touchHandler}
+                    disabled={props.disabled}
+                >
+                    {props.options.map((option, index) => <option key={index}>{option}</option>)}
+                </Form.Select> */}
                 {!inputState.isValid && inputState.isTouched && (
                     <Form.Text className="text-danger d-block">{props.errorText || 'This field is required.'}</Form.Text>
                 )}

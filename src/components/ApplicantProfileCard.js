@@ -55,12 +55,15 @@ const ApplicantProfileCard = (props) => {
                         {
                             label: "Area of Interest",
                             value: props.data.areaOfInterest
-                        },
-                        {
-                            label: "Provinces of Canada where interested to work",
-                            value: props.data.provinceOfCanadaWhereInterestedToWork
-                        },
+                        }
                     ]} />
+
+                <div>
+                    <h5>Provinces of Canada where interested to work</h5>
+                    <h6 className="mb-4 text-muted d-flex">
+                        {props.data.provincesOfCanadaWhereInterestedToWork.length > 0 ? props.data.provincesOfCanadaWhereInterestedToWork.join(', ') : <span><em>Not Provided</em></span>}
+                    </h6>
+                </div>
 
                 {props.children}
 
