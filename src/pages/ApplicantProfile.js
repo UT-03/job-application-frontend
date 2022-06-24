@@ -19,6 +19,7 @@ import ResumeUploadModal from '../components/ResumeUploadModal';
 import ErrorModal from '../components/ErrorModal';
 import PageLoadingSpinner from '../components/PageLoadingSpinner';
 import DisplayResumeList from '../components/DisplayResumeList';
+import ApplicantProfileCard from '../components/ApplicantProfileCard';
 
 const ApplicantProfile = () => {
     const [data, setData] = useState();
@@ -98,124 +99,31 @@ const ApplicantProfile = () => {
                             onClick={() => navigate('/edit-profile', { state: data })}
                             className="mb-3 d-block ms-auto"
                         >Edit Profile</Button>
-                        <Card className='w-100 shadow mb-3'>
-                            <Card.Body>
-                                <Card.Title className="display-4">{data.name}</Card.Title>
-                                <Card.Subtitle className="mb-2 text-muted d-flex">
-                                    <Image src={emailIcon} className='me-1' />
-                                    {data.email}
-                                </Card.Subtitle>
-                                <Card.Subtitle className="mb-2 text-muted d-flex">
-                                    <Image src={phoneIcon} className='me-1' />
-                                    {data.phoneNumber ? data.phoneNumber : <span><em>Not Provided</em></span>}
-                                </Card.Subtitle>
-                                <BlockSeparator heading="Personal Details" />
-                                <ProfileData
-                                    data={[
-                                        {
-                                            label: "Marital Status",
-                                            value: data.maritalStatus
-                                        },
-                                        {
-                                            label: "Number of Children",
-                                            value: data.noOfChildren
-                                        },
-                                        {
-                                            label: "Highest level of Education",
-                                            value: data.highestLevelOfEducation
-                                        },
-                                        {
-                                            label: "Country of Residence",
-                                            value: data.countryOfResidence
-                                        },
-                                        {
-                                            label: "Status in the country of Residence",
-                                            value: data.statusInCountryOfResidence
-                                        }
-                                    ]} />
-                                <BlockSeparator heading="Work-related Details" />
-                                <ProfileData
-                                    data={[
-                                        {
-                                            label: "Work Experience",
-                                            value: data.workExperience
-                                        },
-                                        {
-                                            label: "Area of Interest",
-                                            value: data.areaOfInterest
-                                        },
-                                        {
-                                            label: "Provinces of Canada where interested to work",
-                                            value: data.provinceOfCanadaWhereInterestedToWork
-                                        },
-                                    ]} />
-                                <h5>Resume</h5>
+                        <ApplicantProfileCard
+                            data={data} >
+                            <h5>Resume</h5>
+                            <DisplayResumeList
+                                resumeArray={data.resume}
+                                onActionButtonClick={(url) => {
+                                    setShowWarningModel({
+                                        message: "Are you sure you want to delete this resume?",
+                                        actionButtonLabel: "Delete",
+                                        resumeURL: url
+                                    })
+                                }}
+                                actionButtonLabel="Delete"
+                            />
 
-                                <DisplayResumeList
-                                    resumeArray={data.resume}
-                                    onActionButtonClick={(url) => {
-                                        setShowWarningModel({
-                                            message: "Are you sure you want to delete this resume?",
-                                            actionButtonLabel: "Delete",
-                                            resumeURL: url
-                                        })
-                                    }}
-                                    actionButtonLabel="Delete"
-                                />
+                            {data.resume.length === 0 && (
+                                <h6 className="mb-4 text-muted d-flex">
+                                    <span><em>Not Provided</em></span>
+                                </h6>
+                            )}
 
-                                {data.resume.length === 0 && (
-                                    <h6 className="mb-4 text-muted d-flex">
-                                        <span><em>Not Provided</em></span>
-                                    </h6>
-                                )}
-
-                                <Button
-                                    className="mb-4"
-                                    onClick={() => setShowResumeUploadModel(true)}>Upload resume</Button>
-
-                                {data.haveValidVisaForCanada && (
-                                    <Form.Check
-                                        label="Have a valid visa for Canada"
-                                        className="mb-4 text-muted"
-                                        checked
-                                        readOnly />
-                                )}
-
-                                {data.searchKeyWords.length > 0 && (
-                                    <ProfileData
-                                        data={[
-                                            {
-                                                label: "Search Keywords",
-                                                value: data.searchKeyWords.join(', ')
-                                            }
-                                        ]} />
-
-                                )}
-
-
-                                <BlockSeparator heading="References" />
-
-                                {data.references.length === 0 && (
-                                    <h6 className="mb-4 text-muted d-flex">
-                                        <span><em>Not Provided</em></span>
-                                    </h6>
-                                )}
-
-                                {data.references.length !== 0 && data.references.map((dt, index) => (
-                                    <React.Fragment key={index}>
-                                        <Card.Title className="display-6">{dt.name}</Card.Title>
-                                        <Card.Subtitle className="mb-2 text-muted d-flex">
-                                            <Image src={emailIcon} className='me-1' />
-                                            {dt.email}
-                                        </Card.Subtitle>
-                                        <Card.Subtitle className="mb-5 text-muted d-flex">
-                                            <Image src={phoneIcon} className='me-1' />
-                                            {dt.phoneNumber}
-                                        </Card.Subtitle>
-                                    </React.Fragment>
-                                ))}
-                            </Card.Body>
-                        </Card>
+                            <Button
+                                className="mb-4"
+                                onClick={() => setShowResumeUploadModel(true)}>Upload resume</Button>
+                        </ApplicantProfileCard>
                     </React.Fragment>
                 )}
             </Container>

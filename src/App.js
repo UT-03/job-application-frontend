@@ -13,6 +13,8 @@ import ScrollToTop from './components/ScrollToTop';
 import ApplicantProfile from './pages/ApplicantProfile';
 import EditApplicantProfile from './pages/EditApplicantProfile';
 import JobApplication from './pages/JobApplication';
+import ViewJobApplicants from './pages/ViewJobApplicants';
+import ViewJobApplicantProfile from './pages/ViewJobApplicantProfile';
 
 const App = () => {
   const { token, userType, userId, login, logout } = useAuth();
@@ -28,6 +30,8 @@ const App = () => {
     <Route path='/auth' element={<Auth />} />
     <Route path="/add-new-job" element={<AddJobPosting />} />
     <Route path="/edit-job-posting" element={<EditJobPosting />} />
+    <Route path="/view-job-applicants/:jobId" element={<ViewJobApplicants />} />
+    <Route path="/view-job-applicant-profile" element={<ViewJobApplicantProfile />} />
   </Routes>
   return (
     <AuthContext.Provider

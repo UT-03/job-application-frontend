@@ -67,7 +67,7 @@ const JobCard = (props) => {
                     </Card.Subtitle>
 
                     {/* number of applications for job-visible only to owner immigration firm */}
-                    <Card.Subtitle className="mb-2 text-muted d-block text-decoration-none" as={Link} to='/'>
+                    <Card.Subtitle className="mb-2 text-muted d-block text-decoration-none" as={Link} to={`/view-job-applicants/${props.jobData._id}`}>
                         {`${props.jobData.jobApplications.length} Application${props.jobData.jobApplications.length === 1 ? '' : 's'}`}
                     </Card.Subtitle>
 
