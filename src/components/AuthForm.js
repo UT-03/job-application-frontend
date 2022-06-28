@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
-import { useGoogleOneTapLogin } from 'react-google-one-tap-login';
 import { useNavigate } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 
 import { useForm } from '../hooks/FormHook';
 import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../util/validators';
@@ -20,12 +20,13 @@ const AuthForm = (props) => {
     const navigate = useNavigate();
 
     const googleAuthSubmit = async (res) => {
+        const userObject = jwt_decode(res.credential);
         return sendRequest(
             `${process.env.REACT_APP_HOSTNAME}/api/user/google-signin`,
             'POST',
             JSON.stringify({
-                name: res.name,
-                email: res.email,
+                name: userObject.name,
+                email: userObject.email,
                 userType: props.userType
             }),
             {
@@ -38,14 +39,23 @@ const AuthForm = (props) => {
             })
     }
 
-    useGoogleOneTapLogin({
-        onSuccess: res => googleAuthSubmit(res),
-        onError: error => console.log(error),
-        googleAccountConfigs: {
-            client_id: "389264262772-9b02q77lubn5eire3p880l66b0bml9nd.apps.googleusercontent.com",
-            cancel_on_tap_outside: false
-        }
-    })
+    useEffect(() => {
+        /* global google */
+        google.accounts.id.initialize({
+            client_id: process.env.REACT_APP_GOOGLE_OAUTH_CLIENTID,
+            callback: googleAuthSubmit
+        });
+
+        google.accounts.id.renderButton(document.getElementById('signInDiv'),
+            {
+                theme: "outline",
+                size: "large",
+                text: "continue_with",
+                width: "270"
+            });
+
+        google.accounts.id.prompt();
+    }, []);
 
     const [formState, inputHandler, setFormData] = useForm({
         email: {
@@ -172,6 +182,7 @@ const AuthForm = (props) => {
                     )}
                     {isLoginMode ? 'Login' : 'Signup'}
                 </Button>
+
                 <div className='fs-6 text-center mt-2'>
                     {isLoginMode ? "Don't have an account?" : "Already have an account?"} Switch to <span
                         className='text-primary fw-semibold'
@@ -181,6 +192,25 @@ const AuthForm = (props) => {
                     </span>
                 </div>
             </Form>
+            <div style={{
+                borderTop: "1px solid #dee2e6",
+                position: "relative"
+            }}
+                className="mt-3">
+                <span
+                    style={{
+                        position: "absolute",
+                        left: "calc(50% - 14px)",
+                        top: "-14px"
+                    }}
+                    className="bg-white px-2">or</span>
+            </div>
+            <div
+                style={{
+                    width: "270px"
+                }}
+                id="signInDiv"
+                className="mt-3 d-block mx-auto"></div>
         </React.Fragment>
     );
 };
