@@ -114,7 +114,7 @@ const AuthForm = (props) => {
                 })
         } else {
             return sendRequest(
-                'http://localhost:5000/api/user/signup',
+                `${process.env.REACT_APP_HOSTNAME}/api/user/signup`,
                 'POST',
                 JSON.stringify({
                     name: formState.inputs.name.value,
