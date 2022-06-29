@@ -1,19 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
-import Form from 'react-bootstrap/Form';
-import Image from 'react-bootstrap/Image';
 import { useNavigate } from 'react-router-dom';
+import { ref, deleteObject } from 'firebase/storage';
 
+import storage from '../util/firebase';
 import { AuthContext } from '../context/AuthContext';
 import { useHttpClient } from '../hooks/HttpHook';
-import emailIcon from '../assets/images/emailIcon.svg';
-import phoneIcon from '../assets/images/phoneIcon.svg';
-import BlockSeparator from '../components/BlockSeparator';
-import ProfileData from '../components/ProfileData';
 import WarningModal from '../components/WarningModal';
 import ResumeUploadModal from '../components/ResumeUploadModal';
 import ErrorModal from '../components/ErrorModal';
@@ -25,7 +18,7 @@ const ApplicantProfile = () => {
     const [data, setData] = useState();
     const [showWarningModel, setShowWarningModel] = useState();
     const [showResumeUploadModel, setShowResumeUploadModel] = useState(false);
-
+    const [isDeletingResume, setIsDeletingResume] = useState(false);
 
     const auth = useContext(AuthContext);
 
@@ -55,15 +48,21 @@ const ApplicantProfile = () => {
 
     // Deletes the resume in backend and updates th UI on success
     const deleteResumeHandler = (dataFromWarningModal) => {
+        setIsDeletingResume(true);
         const resumeToBeDeleted = dataFromWarningModal.resumeURL;
-        return sendRequest(`${process.env.REACT_APP_HOSTNAME}/api/applicant/delete-resume`,
-            'DELETE',
-            JSON.stringify({
-                urlToBeDeleted: resumeToBeDeleted
-            }),
-            {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + auth.token
+
+        const deleteRef = ref(storage, resumeToBeDeleted);
+        deleteObject(deleteRef)
+            .then(() => {
+                return sendRequest(`${process.env.REACT_APP_HOSTNAME}/api/applicant/delete-resume`,
+                    'DELETE',
+                    JSON.stringify({
+                        urlToBeDeleted: resumeToBeDeleted
+                    }),
+                    {
+                        'Content-Type': 'application/json',
+                        Authorization: 'Bearer ' + auth.token
+                    })
             })
             .then(() => {
                 const data$ = { ...data };
@@ -71,7 +70,13 @@ const ApplicantProfile = () => {
                 setData(() => data$);
 
                 setShowWarningModel(null);
+                setIsDeletingResume(false);
+            })
+            .catch((err) => {
+                console.log(err);
             });
+
+
     }
 
     // Changes the UI on resume upload
@@ -89,7 +94,7 @@ const ApplicantProfile = () => {
                 data={showWarningModel}
                 onHide={() => setShowWarningModel(null)}
                 onActionButtonClick={deleteResumeHandler}
-                isLoading={isLoading} />}
+                isLoading={isDeletingResume} />}
             <ResumeUploadModal
                 show={showResumeUploadModel}
                 onHide={() => setShowResumeUploadModel(false)}
