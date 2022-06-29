@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 
 import { useForm } from '../hooks/FormHook';
-import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../util/validators';
+import { VALIDATOR_EMAIL, VALIDATOR_EQUAL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../util/validators';
 import Input from './Input';
 import { AuthContext } from '../context/AuthContext';
 import { useHttpClient } from '../hooks/HttpHook';
@@ -144,7 +144,7 @@ const AuthForm = (props) => {
                     <Input
                         id="name"
                         element="input"
-                        type="name"
+                        type="text"
                         label="Name"
                         validators={[VALIDATOR_REQUIRE()]}
                         onInput={inputHandler} />
@@ -164,7 +164,18 @@ const AuthForm = (props) => {
                     label="Password"
                     validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6)]}
                     extraText="Password must be at least six characters long."
-                    onInput={inputHandler} />
+                    onInput={inputHandler}
+                    invalidateFormOnChange={true} />
+                {!isLoginMode && (
+                    <Input
+                        id="confirmPassword"
+                        element="input"
+                        type="password"
+                        label="Confirm Password"
+                        validators={[VALIDATOR_EQUAL(formState.inputs.password.value)]}
+                        errorText="Passwords do not match."
+                        onInput={inputHandler} />
+                )}
                 <Button
                     className='d-block mx-auto'
                     type="submit"
@@ -210,7 +221,7 @@ const AuthForm = (props) => {
                     width: "270px"
                 }}
                 id="signInDiv"
-                className="mt-3 d-block mx-auto"></div>
+                className="my-3 d-block mx-auto"></div>
         </React.Fragment>
     );
 };

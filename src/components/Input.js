@@ -28,20 +28,18 @@ const inputReducer = (state, action) => {
 const Input = (props) => {
     const [multiInputData, setMultiInputData] = useState(props.initialValue || ['']);
 
-    const [multiSelect, setMultiSelect] = useState(null);
-
     const [inputState, dispatch] = useReducer(inputReducer, {
         value: props.initialValue || (props.element === 'multi-input' ? [''] : ''),
         isTouched: false,
         isValid: props.initialValid || false
     });
 
-    const { id, onInput } = props;
+    const { id, onInput, invalidateFormOnChange } = props;
     const { value, isValid } = inputState;
 
     useEffect(() => {
         if (onInput)
-            onInput(id, value, isValid);
+            onInput(id, value, isValid, invalidateFormOnChange);
     }, [id, value, isValid, onInput]);
 
     const changeHandler = (event, index) => {
