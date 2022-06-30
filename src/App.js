@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import { useAuth } from './hooks/AuthHook';
@@ -24,6 +24,15 @@ const ScrollToTop = React.lazy(() => import('./components/ScrollToTop'));
 const App = () => {
   // To login on reload if already logged in
   const { token, userType, userId, login, logout } = useAuth();
+
+  // Loading google script synchronously on start of app
+  useEffect(() => {
+    let googleScript = document.createElement('script');
+    googleScript.src = "https://accounts.google.com/gsi/client";
+    googleScript.type = "text/javascript";
+    googleScript.async = false;                                 // <-- this is important
+    document.getElementsByTagName('head')[0].appendChild(googleScript);
+  }, []);
 
   let routes = null;
   if (!!token) {// if logged in
