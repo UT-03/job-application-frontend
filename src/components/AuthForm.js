@@ -165,7 +165,7 @@ const AuthForm = (props) => {
                     validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6)]}
                     extraText="Password must be at least six characters long."
                     onInput={inputHandler}
-                    invalidateFormOnChange={true} />
+                    invalidateFormOnChange={isLoginMode ? false : true} />
                 {!isLoginMode && (
                     <Input
                         id="confirmPassword"
